@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://config.example.com/v1/catalog.schema.json",
+  "$id": "https://zcirillo-hc.github.io/tipoff-catalog/v1/catalog.schema.json",
   "title": "Tipoff catalog",
   "description": "Single versioned data file: points programs, cards, merchant chains with pre-seeded MCCs, and MCC/POI category mappings. Documentation + external tooling contract. The app gates acceptance with CatalogValidator (Swift), which enforces every constraint declared here (bounds, patterns, lengths, arity) plus cross-references (program IDs exist, chain MCCs are mapped, poolsWith IDs exist, >=100 cards, >=100 chains). Forward compatibility: an entry whose rewardCategory this build does not know is dropped at decode with a warning (never remapped); an unknown earnRate.channel decodes as any with a warning.",
   "type": "object",
