@@ -1,0 +1,688 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://config.example.com/v1/catalog.schema.json",
+  "title": "Tipoff catalog",
+  "description": "Single versioned data file: points programs, cards, merchant chains with pre-seeded MCCs, and MCC/POI category mappings. Documentation + external tooling contract. The app gates acceptance with CatalogValidator (Swift), which enforces every constraint declared here (bounds, patterns, lengths, arity) plus cross-references (program IDs exist, chain MCCs are mapped, poolsWith IDs exist, >=100 cards, >=100 chains). Forward compatibility: an entry whose rewardCategory this build does not know is dropped at decode with a warning (never remapped); an unknown earnRate.channel decodes as any with a warning.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "catalogVersion",
+    "updatedAt",
+    "programs",
+    "cards",
+    "chains",
+    "mccToCategory",
+    "poiToCategory"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer",
+      "const": 1
+    },
+    "catalogVersion": {
+      "type": "string",
+      "pattern": "^\\d{4}\\.\\d{2}\\.\\d{2}-\\d+$",
+      "description": "YYYY.MM.DD-N. Bump N for same-day re-releases."
+    },
+    "updatedAt": {
+      "$ref": "#/$defs/isoDate"
+    },
+    "programs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/program"
+      }
+    },
+    "cards": {
+      "type": "array",
+      "minItems": 100,
+      "items": {
+        "$ref": "#/$defs/card"
+      }
+    },
+    "chains": {
+      "type": "array",
+      "minItems": 100,
+      "items": {
+        "$ref": "#/$defs/chain"
+      }
+    },
+    "mccToCategory": {
+      "type": "object",
+      "description": "Four-digit MCC -> reward category, optionally with a confidence (default 0.9) that caps any chain match whose mcc is this code (after the POI bonus) — e.g. 5499 convenience stores are groceries at 0.45 because issuers disagree. Two bands only (PLAN §16.8.2): < 0.5 display-only, >= 0.5 push-eligible. Every MCC referenced by a chain must be present. Codes in 3000-3299, 3351-3441 and 3501-3999 fall back to travel at runtime when absent.",
+      "propertyNames": {
+        "pattern": "^\\d{4}$"
+      },
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/rewardCategory"
+          },
+          {
+            "type": "array",
+            "prefixItems": [
+              {
+                "$ref": "#/$defs/rewardCategory"
+              },
+              {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            ],
+            "items": false,
+            "minItems": 2,
+            "maxItems": 2
+          }
+        ]
+      }
+    },
+    "poiToCategory": {
+      "type": "object",
+      "description": "MKPointOfInterestCategory short name (rawValue without the MKPOICategory prefix, lowerCamel; acronyms lowercased: evCharger, atm, rvPark) -> [category, confidence 0..1]. Keys are compared case-insensitively at runtime and must not collide by case. Every key must be a real MKPointOfInterestCategory.",
+      "propertyNames": {
+        "pattern": "^[a-z][A-Za-z0-9]*$"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "prefixItems": [
+          {
+            "$ref": "#/$defs/rewardCategory"
+          },
+          {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        ],
+        "items": false,
+        "minItems": 2,
+        "maxItems": 2
+      }
+    },
+    "poiCorroboration": {
+      "type": "object",
+      "description": "PLAN §16.24.1: reward category (raw value, e.g. \"dining\") -> extra keywords whose presence in the place name, beyond the matched chain alias, corroborates a disagreeing POI's classification of that category. \"Kroger Cafe\" corroborates a restaurant POI's dining category via \"cafe\"; a bare \"Kroger\" does not, so the chain result stays display-only at 0.45 instead of pushing dining. A category with no entry here (e.g. groceries) can never be corroborated by name alone. Optional — absent on an older cached catalog behaves as an empty table (every disagreement stays display-only). An unrecognized key is ignored by CategoryMapper and flagged by the validator, never fatal.",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "$defs": {
+    "isoDate": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "hexColor": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6}$"
+    },
+    "stableID": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "minLength": 1
+    },
+    "rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 50,
+      "description": "Multiplier (points programs) or percent (cash programs). 0 is legal but the validator warns."
+    },
+    "centsPerPoint": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 10
+    },
+    "network": {
+      "type": "string",
+      "enum": [
+        "visa",
+        "mastercard",
+        "amex",
+        "discover"
+      ]
+    },
+    "rewardCategory": {
+      "type": "string",
+      "description": "Phase 1 live: dining, groceries, gas, travel, everythingElse. Reserved: transit, streaming, drugstores, onlineRetail, wholesaleClubs. An unknown string drops the containing row/entry at decode with a warning (forward compatibility).",
+      "enum": [
+        "dining",
+        "groceries",
+        "gas",
+        "travel",
+        "everythingElse",
+        "transit",
+        "streaming",
+        "drugstores",
+        "onlineRetail",
+        "wholesaleClubs"
+      ]
+    },
+    "program": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "defaultCentsPerPoint",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/stableID"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "defaultCentsPerPoint": {
+          "$ref": "#/$defs/centsPerPoint",
+          "description": "Editorial default valuation. 1.0 for cash. Users override per program."
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "points",
+            "cash"
+          ],
+          "description": "points: card rates are multipliers (4x). cash: card rates are percents (3%)."
+        }
+      }
+    },
+    "earnRate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "rate"
+      ],
+      "properties": {
+        "category": {
+          "$ref": "#/$defs/rewardCategory"
+        },
+        "rate": {
+          "$ref": "#/$defs/rate"
+        },
+        "cap": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "description": "Phase 2 schema. Ignored by the Phase 1 engine."
+        },
+        "capPeriod": {
+          "type": "string",
+          "enum": [
+            "month",
+            "quarter",
+            "year"
+          ]
+        },
+        "capUnit": {
+          "type": "string",
+          "enum": [
+            "spend",
+            "reward"
+          ]
+        },
+        "capGroupID": {
+          "$ref": "#/$defs/stableID",
+          "description": "PLAN §17.8.1 shared cap: rows on ONE card that carry the same capGroupID draw from a single bucket (Citi Custom Cash's $500/month top-category pot, BofA Customized Cash's $2,500/quarter choice pot, Marriott Boundless's $6,000/year across dining, gas and groceries). Every row in a group must repeat the same cap, capPeriod and capUnit (validator error card.earn.capGroup.disagreement), and a grouped row must declare a cap. Absent = the row's cap is its own, per category, as PLAN §17.2 shipped. The id is scoped to the card; two cards may reuse the same string."
+        },
+        "note": {
+          "type": "string"
+        },
+        "channel": {
+          "type": "string",
+          "enum": [
+            "any",
+            "inStore",
+            "online",
+            "portal"
+          ],
+          "default": "any",
+          "description": "Where the row applies. Absent = any. Location alerts, the widget and the manual picker score only any + inStore; Card Detail shows online/portal rows with a label (\"online only\", \"via Chase Travel\"). One row per (category, channel, chainIDs restriction); everythingElse rows are exempt from that rule and only warn unless merchant-restricted. An unknown value decodes as any with a warning."
+        },
+        "chainIDs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/stableID"
+          },
+          "description": "PLAN §16.10 / §16.13.3 merchant-restricted row: applies ONLY when the resolved chain (or its fuelSiblingID parent) is listed (Hilton Aspire 14x at hilton, Delta Gold 2x at delta_air_lines, Costco Anywhere 5% at costco_fuel and 2% at costco, Target Circle 5% at target). Every id must exist in chains[] (warning otherwise) and at least one listed chain — or its fuel sibling — must classify as the row's category, or the row can never apply (validator warning card.earn.chainIDs.category; build.py asserts). Manual mode (no chain context) ignores restricted rows. A restricted everythingElse row is the only legal everythingElse row and, per PLAN §16.13.1, is push-eligible (\"Use Target Circle MC · 5% here\")."
+        },
+        "excludedChainIDs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/stableID"
+          },
+          "description": "PLAN §16.11.2 merchant exclusion: the row does NOT apply at these chains (Amex/Chase/Capital One/BofA grocery rows exclude walmart, target); the card falls to its next applicable row / flatRate there. Every id must exist in chains[]. Manual mode ignores exclusions."
+        }
+      },
+      "dependentRequired": {
+        "cap": [
+          "capPeriod",
+          "capUnit"
+        ],
+        "capGroupID": [
+          "cap"
+        ]
+      }
+    },
+    "rotatingQuarter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "quarter",
+        "categories"
+      ],
+      "properties": {
+        "year": {
+          "type": "integer",
+          "minimum": 2024
+        },
+        "quarter": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/rewardCategory"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "rotating": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "program",
+        "requiresActivation"
+      ],
+      "properties": {
+        "program": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Rotating program identifier, e.g. chase_freedom_flex, discover_it."
+        },
+        "requiresActivation": {
+          "type": "boolean"
+        },
+        "rate": {
+          "$ref": "#/$defs/rate",
+          "default": 5,
+          "description": "Scored as the card's rate for a category the current quarter covers (PLAN §16.31.1), and rendered as a percent in the unannounced-quarter hedge."
+        },
+        "cap": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "description": "PLAN §16.31.3: dollars of spend the bonus rate covers per quarter (1500 on both seeded programs). Disclosed in copy; not enforced."
+        },
+        "calendar": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/rotatingQuarter"
+          },
+          "description": "The announced quarters (PLAN §16.28 A). A quarter that covers the requested category is scored at `rate` (PLAN §16.31.1)."
+        }
+      }
+    },
+    "benefit": {
+      "type": "object",
+      "description": "PLAN §17.4.1 / §17.7 — a statement credit or recurring perk. cadence, resetRule and channel are loose strings so a value a future catalog introduces never breaks decoding (§16.22.5); an unrecognised cadence or resetRule decodes with a warning and the tracker derives no window from it.",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "amount",
+        "cadence",
+        "resetRule",
+        "channel"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/stableID"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "amount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cadence": {
+          "type": "string",
+          "examples": [
+            "monthly",
+            "quarterly",
+            "semiannual",
+            "annual",
+            "once"
+          ],
+          "description": "The human label. The window itself comes from resetRule, or from intervalMonths when present."
+        },
+        "resetRule": {
+          "type": "string",
+          "examples": [
+            "calendarMonth",
+            "calendarQuarter",
+            "calendarHalf",
+            "calendarYear",
+            "cardmemberYear",
+            "interval"
+          ],
+          "description": "Which window the allowance belongs to. PLAN §17.7.1 added calendarHalf (Jan–Jun / Jul–Dec) because deriving two windows from semiannual + calendarYear would be guesswork at the boundary. cardmemberYear runs from the user's own anniversary, which the data does not carry — the tracker treats it as calendarYear and says so on screen (§17.9). §17.10.5 added \"interval\", which pairs with intervalMonths: set them together or the validator warns."
+        },
+        "channel": {
+          "type": "string",
+          "examples": [
+            "statementCredit",
+            "portalCredit",
+            "enrollment"
+          ]
+        },
+        "intervalMonths": {
+          "type": "integer",
+          "exclusiveMinimum": 0,
+          "description": "PLAN §17.7.2 — months between renewals for a credit no cadence expresses (48 for Global Entry / TSA PreCheck). When present it drives the reset, measured from the user's last recorded use, and cadence/resetRule are the label only."
+        },
+        "geofenceable": {
+          "type": "boolean",
+          "default": true,
+          "description": "PLAN §17.7.3 — whether arriving somewhere can ever be the moment to use this credit. false for a delivery or booking platform (DoorDash, Instacart, Resy, Uber): there is no arrival, and Resy's credit applies at partner restaurants the catalog cannot name. Absent = true. The arrival path may only ever offer a geofenceable credit; the Benefits tab shows every credit either way. A credit marked true whose chains are all platform entries is a validator error (card.benefit.geofenceable.platform). PLAN §17.10.2: channel portalCredit implies false, and a portalCredit marked true is a validator error (card.benefit.geofenceable.portal) — a portal credit is redeemed by booking, so no arrival is the moment to spend it. §17.10.3: the Turo credit is marked false directly rather than reclassifying the turo chain."
+        },
+        "chainIDs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/stableID"
+          },
+          "description": "PLAN §17.4.1 — the merchants the credit is spent at, so the arrival path can offer it (\"you have $8 of Dunkin credit\"). Every id must exist in chains[] (validator warning otherwise; build.py asserts the bundled data)."
+        },
+        "enrollmentRequired": {
+          "type": "boolean",
+          "default": false,
+          "description": "PLAN §17.10.4 — whether the cardholder must opt in before a dollar of this credit is spendable (Resy, the Instacart and DoorDash promos, Amex's enrolment offers). Absent = false. An enrollment-gated credit the user has not confirmed enrolling in is not available money: the Benefits tab shows an \"enroll first\" state, never counts it toward a balance, and never offers it on arrival."
+        },
+        "verifiedAt": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/isoDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Editorial sign-off date, as on card.verifiedAt (PLAN §16.12.5). null/absent = unverified."
+        },
+        "note": {
+          "type": "string",
+          "description": "Editorial note: what the amount covers, what it excludes, where it was confirmed."
+        }
+      }
+    },
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "base",
+        "accent",
+        "finish",
+        "textOnCard"
+      ],
+      "properties": {
+        "base": {
+          "$ref": "#/$defs/hexColor"
+        },
+        "accent": {
+          "$ref": "#/$defs/hexColor"
+        },
+        "finish": {
+          "type": "string",
+          "enum": [
+            "metal",
+            "matte",
+            "gloss"
+          ]
+        },
+        "textOnCard": {
+          "type": "string",
+          "enum": [
+            "dark",
+            "light"
+          ]
+        }
+      }
+    },
+    "card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "issuer",
+        "name",
+        "shortName",
+        "network",
+        "programID",
+        "annualFee",
+        "flatRate",
+        "earn",
+        "style",
+        "popularityRank",
+        "sourceURL",
+        "verifiedAt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/stableID"
+        },
+        "issuer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "shortName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 28
+        },
+        "network": {
+          "$ref": "#/$defs/network"
+        },
+        "programID": {
+          "$ref": "#/$defs/stableID",
+          "description": "Must exist in programs[]."
+        },
+        "annualFee": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "flatRate": {
+          "$ref": "#/$defs/rate",
+          "description": "Everything-else multiplier (points) or percent (cash)."
+        },
+        "earn": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/earnRate"
+          },
+          "description": "May be empty (pure flat card). One row per (category, channel, chainIDs restriction). Co-brand cards (PLAN §16.13.3): the brand rate is a chainIDs row; the unrestricted travel row, if any, is the 'other travel' rate."
+        },
+        "rotating": {
+          "$ref": "#/$defs/rotating"
+        },
+        "benefits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/benefit"
+          },
+          "default": []
+        },
+        "style": {
+          "$ref": "#/$defs/style"
+        },
+        "popularityRank": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sourceURL": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https?://"
+        },
+        "verifiedAt": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/isoDate"
+            }
+          ],
+          "description": "Editorial sign-off date (PLAN §16.12.5): the date every modelled field was checked against sourceURL (2026-09-06 for the first pass). null = seeded from general knowledge, unverified, or pending founder confirmation (a PENDING_CONFIRMATION comment in the generator). Re-verify quarterly."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "active",
+            "closedToNew",
+            "converted",
+            "discontinued"
+          ],
+          "default": "active",
+          "description": "PLAN §16.12.2 lifecycle. active: open to new applicants. closedToNew: existing holders keep it; the picker lists it with the caption \"No longer offered to new applicants\" (Citi Custom Cash, legacy Bilt). converted: every account was migrated to convertedTo; hidden from the picker; holders see a one-time \"Your <old> is now <new>\" notice with Replace/Keep. discontinued: retired; hidden from the picker; kept so saved states resolve. An unknown value decodes as active with a warning."
+        },
+        "convertedTo": {
+          "$ref": "#/$defs/stableID",
+          "description": "For status=converted: the successor card id (must exist in cards[] and not be this card — validator error otherwise; a non-converted card with convertedTo, or a converted card without it, warns)."
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "standaloneCentsPerPoint": {
+          "$ref": "#/$defs/centsPerPoint",
+          "description": "Points pooling (PLAN §16.3.2): value of a point when the user owns none of poolsWith (e.g. Freedom 1.0). Absent = always the program default. Requires poolsWith."
+        },
+        "poolsWith": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/stableID"
+          },
+          "description": "Card IDs (must exist in cards[] and share programID) that lift this card's points to the program default when owned. Requires standaloneCentsPerPoint."
+        },
+        "displayRatesAsPercent": {
+          "type": "boolean",
+          "default": false,
+          "description": "PLAN §16.6.2: a points-modelled card the issuer markets in percent (Citi Double Cash, Custom Cash, Rewards+). displayRate renders rate × standaloneCentsPerPoint as a percent (\"2%\", \"5%\"); displayReturn still uses the effective (pooled or standalone) valuation."
+        }
+      },
+      "dependentRequired": {
+        "standaloneCentsPerPoint": [
+          "poolsWith"
+        ],
+        "poolsWith": [
+          "standaloneCentsPerPoint"
+        ]
+      }
+    },
+    "chain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "brandNames",
+        "mcc",
+        "category"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/stableID"
+        },
+        "brandNames": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Matched case-insensitively after normalization. A multi-word alias (contains whitespace) matches anywhere as a contiguous whole-token sequence at 0.9 confidence; a single-word alias matches only at the START of the place name at 0.75. Longest alias wins. Never list a bare common word (United, Lucky, Pilot, Apple)."
+        },
+        "nameRegex": {
+          "type": "string",
+          "maxLength": 64,
+          "description": "Optional ICU regex (case-insensitive) applied to the raw name; checked before aliases at 0.9. PLAN §16.8.1: only patterns whose exact string is compiled into the app (ChainRegexWhitelist.swift) are ever run; any other pattern — from a remote catalog or a typo here — is dropped with a validator warning and the chain falls back to alias matching. Only run against names of at most 128 characters."
+        },
+        "mcc": {
+          "type": "string",
+          "pattern": "^\\d{4}$",
+          "description": "Should be a key of mccToCategory (the validator warns otherwise — PLAN §16.8.9; the chain's own category is authoritative). That entry's confidence caps the chain's match confidence, after the POI bonus."
+        },
+        "category": {
+          "$ref": "#/$defs/rewardCategory"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": [
+            "seeded",
+            "confirmed",
+            "disputed"
+          ],
+          "default": "seeded",
+          "description": "seeded: match-kind confidence applies. confirmed: 0.97. disputed: 0.5."
+        },
+        "acceptedNetworks": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/network"
+          },
+          "description": "Card networks accepted at this chain (PLAN §16.2.2). Absent = all. Costco / Costco fuel are [\"visa\"]; the engine excludes other cards and reports them in Recommendation.excludedForNetwork."
+        },
+        "active": {
+          "type": "boolean",
+          "default": true,
+          "description": "false keeps a retired chain (rite_aid) for history; inactive chains never match."
+        },
+        "platform": {
+          "type": "boolean",
+          "default": false,
+          "description": "PLAN §17.7.3/§17.7.4 — a delivery or booking platform (resy, instacart, doordash), not a place a user arrives at. A platform entry exists so a benefit can name where its credit is spent; it is never matched against a place name, so it produces no classification and no arrival, and a benefit naming only platforms must set geofenceable: false."
+        },
+        "fuelSiblingID": {
+          "$ref": "#/$defs/stableID",
+          "description": "PLAN §16.8.7: the 5541 chain a gasStation POI at this chain resolves to, at 0.85 (costco → costco_fuel, kroger → kroger_fuel). Must exist in chains[] and be a gas chain."
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
