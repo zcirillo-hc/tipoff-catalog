@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "catalogVersion": "2026.11.01-4",
-  "updatedAt": "2026-11-01",
+  "catalogVersion": "2026.11.02-2",
+  "updatedAt": "2026-11-02",
   "programs": [
     {
       "id": "cash",
@@ -276,7 +276,8 @@
             "resy"
           ],
           "verifiedAt": "2026-10-29",
-          "note": "Headline is $100/yr but it is paid as $50 Jan-Jun and $50 Jul-Dec - a semiannual credit in disguise. Linked to the `resy` platform chain (§17.7.4), never geofenced (§17.7.3)."
+          "note": "Paid as $50 from January to June and $50 from July to December, not as one $100 lump. Applies at qualifying U.S. Resy restaurants.",
+          "editorialNote": "Headline is $100/yr but it is paid as $50 Jan-Jun and $50 Jul-Dec, a semiannual credit in disguise. Linked to the `resy` platform chain (§17.7.4), never geofenced (§17.7.3)."
         },
         {
           "id": "amex_gold_dunkin_credit",
@@ -378,7 +379,8 @@
             "resy"
           ],
           "verifiedAt": "2026-10-29",
-          "note": "$400/yr. Linked to the `resy` platform chain (§17.7.4) and never geofenced (§17.7.3): the credit applies at qualifying U.S. Resy restaurants, which the catalog cannot name."
+          "note": "$100 a quarter, so $400 over a year. Applies at qualifying U.S. Resy restaurants.",
+          "editorialNote": "$400/yr. Linked to the `resy` platform chain (§17.7.4) and never geofenced (§17.7.3): the credit applies at qualifying U.S. Resy restaurants, which the catalog cannot name."
         },
         {
           "id": "amex_plat_digital_entertainment",
@@ -400,7 +402,8 @@
           "channel": "statementCredit",
           "enrollmentRequired": true,
           "verifiedAt": "2026-10-29",
-          "note": "$300/yr; excludes outlets. No lululemon chain in the catalog. Founder-confirmed 2026-10-29 (PLAN §17.7.5)."
+          "note": "$75 a quarter, so $300 over a year. Outlet stores are excluded.",
+          "editorialNote": "$300/yr; excludes outlets. No lululemon chain in the catalog. Founder-confirmed 2026-10-29 (PLAN §17.7.5)."
         },
         {
           "id": "amex_plat_uber_cash",
@@ -459,7 +462,8 @@
           "resetRule": "calendarMonth",
           "channel": "statementCredit",
           "verifiedAt": "2026-10-29",
-          "note": "Covers the membership fee only (plus taxes), not in-store spend, so the `walmart` chain is deliberately NOT linked."
+          "note": "Covers the membership fee only, plus taxes. It does not apply to anything you buy in the store.",
+          "editorialNote": "The `walmart` chain is deliberately NOT linked: the credit is the membership fee, not in-store spend."
         },
         {
           "id": "amex_plat_equinox",
@@ -470,7 +474,8 @@
           "channel": "statementCredit",
           "enrollmentRequired": true,
           "verifiedAt": "2026-10-29",
-          "note": "From the Amex newsroom refresh announcement, not the product page; covers club memberships and Equinox+ bought direct. Spot-check. Founder-confirmed 2026-10-29 (PLAN §17.7.5)."
+          "note": "Covers club memberships and Equinox+ bought direct.",
+          "editorialNote": "From the Amex newsroom refresh announcement, not the product page. Spot-check. Founder-confirmed 2026-10-29 (PLAN §17.7.5)."
         },
         {
           "id": "amex_plat_oura",
@@ -481,7 +486,8 @@
           "channel": "statementCredit",
           "enrollmentRequired": true,
           "verifiedAt": "2026-10-29",
-          "note": "Amex consumer Platinum fact sheet (press kit). Ring purchases at ouraring.com only; memberships and third-party retailers excluded. Spot-check. Founder-confirmed 2026-10-29 (PLAN §17.7.5)."
+          "note": "Ring purchases at ouraring.com only. Memberships and third-party retailers are excluded.",
+          "editorialNote": "Amex consumer Platinum fact sheet (press kit). Spot-check. Founder-confirmed 2026-10-29 (PLAN §17.7.5)."
         }
       ],
       "style": {
@@ -982,7 +988,7 @@
             "resy"
           ],
           "verifiedAt": "2026-10-29",
-          "note": "Linked to the `resy` platform chain (§17.7.4), never geofenced (§17.7.3)."
+          "editorialNote": "Linked to the `resy` platform chain (§17.7.4), never geofenced (§17.7.3)."
         },
         {
           "id": "delta_plat_rideshare_credit",
@@ -1061,7 +1067,8 @@
             "resy"
           ],
           "verifiedAt": "2026-10-29",
-          "note": "$240/yr. Linked to the `resy` platform chain (§17.7.4), never geofenced (§17.7.3)."
+          "note": "$20 a month, so $240 over a year.",
+          "editorialNote": "$240/yr. Linked to the `resy` platform chain (§17.7.4), never geofenced (§17.7.3)."
         },
         {
           "id": "delta_reserve_rideshare_credit",
@@ -1696,7 +1703,8 @@
           "channel": "statementCredit",
           "intervalMonths": 48,
           "verifiedAt": "2026-10-29",
-          "note": "Renews every four years - no cadence value expresses that, so recorded as `once`."
+          "note": "Renews every four years.",
+          "editorialNote": "No cadence value expresses a four-year interval, so recorded as `once` with interval_months=48."
         }
       ],
       "style": {
@@ -2071,7 +2079,8 @@
             "instacart"
           ],
           "verifiedAt": "2026-10-29",
-          "note": "In-app Instacart credit, not a statement credit; requires activating the complimentary Instacart+ membership. One order of $10+ per month, no rollover. Benefit ends 12/31/2027. Linked to the `instacart` platform chain (§17.7.4), never geofenced (§17.7.3)."
+          "note": "An in-app Instacart credit rather than a statement credit, so you have to activate the complimentary Instacart+ membership first. One order of $10 or more a month, with no rollover. The benefit ends 12/31/2027.",
+          "editorialNote": "Linked to the `instacart` platform chain (§17.7.4), never geofenced (§17.7.3)."
         },
         {
           "id": "united_explorer_jsx_credit",
@@ -4135,7 +4144,8 @@
           "channel": "statementCredit",
           "intervalMonths": 48,
           "verifiedAt": "2026-10-29",
-          "note": "The page does not state a renewal interval; other issuers use four years. Recorded as `once`."
+          "note": "Capital One does not state a renewal interval. Other issuers use four years.",
+          "editorialNote": "Recorded as `once` with interval_months=48, like every other credit of this shape."
         }
       ],
       "style": {
@@ -5655,7 +5665,8 @@
           "resetRule": "calendarHalf",
           "channel": "statementCredit",
           "verifiedAt": "2026-10-29",
-          "note": "$50/yr as two halves. The page does not name eligible merchants, so no chainIDs: the `doordash` platform chain exists (§17.7.4) but this credit is not stated to be DoorDash-specific, and Grubhub and Uber Eats have no chain at all."
+          "note": "$25 from January to June and $25 from July to December. Barclays does not name the eligible merchants.",
+          "editorialNote": "$50/yr as two halves. The page does not name eligible merchants, so no chainIDs: the `doordash` platform chain exists (§17.7.4) but this credit is not stated to be DoorDash-specific, and Grubhub and Uber Eats have no chain at all."
         }
       ],
       "style": {
