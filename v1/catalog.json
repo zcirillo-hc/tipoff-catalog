@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "catalogVersion": "2026.10.30-1",
-  "updatedAt": "2026-10-30",
+  "catalogVersion": "2026.11.01-3",
+  "updatedAt": "2026-11-01",
   "programs": [
     {
       "id": "cash",
@@ -206,7 +206,29 @@
         {
           "category": "travel",
           "rate": 3.0,
-          "note": "Flights booked direct with airlines or via Amex Travel only"
+          "note": "Flights booked direct with the airline or through Amex Travel",
+          "chainIDs": [
+            "air_canada",
+            "alaska_airlines",
+            "allegiant_air",
+            "american_airlines",
+            "avelo_airlines",
+            "breeze_airways",
+            "british_airways",
+            "delta_air_lines",
+            "frontier_airlines",
+            "hawaiian_airlines",
+            "jetblue",
+            "southwest_airlines",
+            "spirit_airlines",
+            "sun_country_airlines",
+            "united_airlines"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 1.0,
+          "note": "Everything else that counts as travel, hotels and car rentals included"
         }
       ],
       "rotating": null,
@@ -280,7 +302,8 @@
       "popularityRank": 3,
       "sourceURL": "https://www.americanexpress.com/us/credit-cards/card/gold-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "Grocery bonus excludes superstores/warehouse clubs (Walmart, Target, Costco)."
+      "notes": "The grocery bonus does not apply at superstores or warehouse clubs such as Walmart, Target and Costco. Only flights earn 3x travel; a hotel or a rental car earns 1x.",
+      "editorialNotes": "PLAN §23.2 (M19): the 3x row claimed the whole travel category on a flights-only note and is now restricted to AIRLINE_CHAIN_IDS, with the 1x other-travel row stated explicitly rather than left to flatRate, so Card Detail shows the real answer for a hotel."
     },
     {
       "id": "amex_platinum",
@@ -298,7 +321,35 @@
           "cap": 500000,
           "capPeriod": "year",
           "capUnit": "spend",
-          "note": "Flights booked direct or via Amex Travel; prepaid hotels via Amex Travel. Other travel 1x"
+          "note": "Flights booked direct with the airline or through Amex Travel; $500k/yr then 1x",
+          "chainIDs": [
+            "air_canada",
+            "alaska_airlines",
+            "allegiant_air",
+            "american_airlines",
+            "avelo_airlines",
+            "breeze_airways",
+            "british_airways",
+            "delta_air_lines",
+            "frontier_airlines",
+            "hawaiian_airlines",
+            "jetblue",
+            "southwest_airlines",
+            "spirit_airlines",
+            "sun_country_airlines",
+            "united_airlines"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 5.0,
+          "note": "Prepaid hotels booked through Amex Travel",
+          "channel": "portal"
+        },
+        {
+          "category": "travel",
+          "rate": 1.0,
+          "note": "Everything else that counts as travel, including a hotel you book with the hotel"
         }
       ],
       "rotating": null,
@@ -442,7 +493,8 @@
       "popularityRank": 6,
       "sourceURL": "https://www.americanexpress.com/us/credit-cards/card/platinum/",
       "verifiedAt": "2026-09-06",
-      "notes": "Annual fee raised to $895 in 2025. 5x applies only to flights/prepaid Amex Travel hotels. PLAN §17.7.5 (M12a benefits run): Saks is RETIRED (July 2026) and carries no credit — do not re-add one. lululemon $300/yr replaces it, billed $75 a quarter, so it is modelled as a quarterly credit with a calendarQuarter reset. Equinox $300/yr and Oura $200/yr are founder-confirmed."
+      "notes": "Annual fee raised to $895 in 2025. The 5x is for flights and for prepaid hotels booked through Amex Travel. Everything else earns 1x, a hotel you book with the hotel included. The lululemon credit arrives as $75 a quarter rather than $300 at once.",
+      "editorialNotes": "PLAN §17.7.5 (M12a benefits run): Saks is RETIRED (July 2026) and carries no credit. Do not re-add one. lululemon $300/yr replaces it, billed $75 a quarter, so it is modelled as a quarterly credit with a calendarQuarter reset. Equinox $300/yr and Oura $200/yr are founder-confirmed. PLAN §23.2 (M19): this is the card the §22.2 finding was named after. The 5x flights row is now restricted to AIRLINE_CHAIN_IDS; the prepaid-hotel half of the same rate is a portal row, because it is the booking channel and not the merchant that earns it; and the unrestricted 1x row is the card's real other-travel rate. The $500,000 cap stays on the flights row only, which is where the issuer puts it. docs/REVERIFY-2026-11.md: the earn section could not be re-read on 2026-11-01 (the product page truncates), so the 5x rate and its cap still rest on the 2026-09 verification."
     },
     {
       "id": "amex_green",
@@ -456,8 +508,7 @@
       "earn": [
         {
           "category": "travel",
-          "rate": 3.0,
-          "note": "Broad travel incl. hotels, airfare, tours"
+          "rate": 3.0
         },
         {
           "category": "dining",
@@ -490,7 +541,8 @@
       "popularityRank": 40,
       "sourceURL": "https://www.americanexpress.com/us/credit-cards/card/green/",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": "The 3x on travel covers the whole category, so a hotel, a plane ticket and a tour all earn it.",
+      "editorialNotes": "PLAN §23.2 (M19): this row's note read \"Broad travel incl. hotels, airfare, tours\" and was the only unrestricted travel row in the catalog whose breadth was real. It tripped the new lint by naming airfare, so the breadth moved into the user-facing note, where it cannot mis-scope a row, and the row is deliberately noteless like every other whole-category travel row (bofa_premium_rewards, wf_autograph, navy_federal_flagship). Do not put a sub-type list back on the row: naming flights there is what the lint is for."
     },
     {
       "id": "amex_blue_cash_preferred",
@@ -663,7 +715,8 @@
       "popularityRank": 70,
       "sourceURL": "https://www.americanexpress.com/us/credit-cards/card/amex-everyday/",
       "verifiedAt": "2026-09-06",
-      "notes": "20% points bonus with 20+ purchases per period not modeled. Closed to new applicants as of 2024-09-25 per secondary sources (UpgradedPoints/NerdWallet); the Amex product page remains live.",
+      "notes": "Closed to new applicants as of 2024-09-25. Making 20 or more purchases in a billing period adds a 20% points bonus, which Tipoff does not count.",
+      "editorialNotes": "The 20% purchase bonus is not modelled. Closure confirmed by secondary sources only (UpgradedPoints/NerdWallet); the Amex product page remains live.",
       "status": "closedToNew"
     },
     {
@@ -705,7 +758,8 @@
       "popularityRank": 75,
       "sourceURL": "https://www.americanexpress.com/us/credit-cards/card/amex-everyday-preferred/",
       "verifiedAt": "2026-09-06",
-      "notes": "50% points bonus with 30+ purchases per period not modeled. Closed to new applicants as of 2024-09-25; the $95 fee is confirmed only via secondary sources (UpgradedPoints/NerdWallet) — the Amex product page remains live.",
+      "notes": "Closed to new applicants as of 2024-09-25. Making 30 or more purchases in a billing period adds a 50% points bonus, which Tipoff does not count.",
+      "editorialNotes": "The 50% purchase bonus is not modelled. The $95 fee is confirmed only via secondary sources (UpgradedPoints/NerdWallet), and the Amex product page remains live.",
       "status": "closedToNew"
     },
     {
@@ -816,6 +870,22 @@
           ],
           "verifiedAt": "2026-10-29",
           "note": "Prepaid hotel or vacation rental bookings through Delta Stays on delta.com only; Delta Vacations excluded. Amex's own pages disagree on whether enrollment is required - the benefits page labels it 'Enrollment Required', the terms do not. Recorded as required."
+        },
+        {
+          "id": "delta_gold_rideshare_credit",
+          "name": "Rideshare Credit",
+          "amount": 10,
+          "cadence": "monthly",
+          "resetRule": "calendarMonth",
+          "channel": "statementCredit",
+          "geofenceable": false,
+          "enrollmentRequired": true,
+          "chainIDs": [
+            "uber",
+            "lyft"
+          ],
+          "verifiedAt": "2026-11-01",
+          "note": "$120/yr, and it begins after your first card renewal rather than straight away. Eligible providers are Uber, Lyft, Curb and Alto (the list can change); only Uber and Lyft exist as catalog chains. Added by the November re-verification from Amex's own rideshare-credit page for this card; the October pass recorded only Delta Stays three days earlier, so the founder is asked to confirm it on the account benefits dashboard."
         }
       ],
       "style": {
@@ -850,7 +920,24 @@
         {
           "category": "travel",
           "rate": 3.0,
-          "note": "Hotels booked direct with the hotel 3x; other airlines and travel 1x"
+          "note": "Hotels booked direct with the hotel",
+          "chainIDs": [
+            "best_western",
+            "choice_hotels",
+            "disney_resorts",
+            "extended_stay",
+            "hilton",
+            "hyatt",
+            "ihg",
+            "marriott",
+            "motel_6",
+            "wyndham"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 1.0,
+          "note": "The rest of travel"
         },
         {
           "category": "dining",
@@ -923,7 +1010,8 @@
       "popularityRank": 30,
       "sourceURL": "https://www.americanexpress.com/us/credit-cards/card/delta-skymiles-platinum-american-express-card/",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": null,
+      "editorialNotes": "PLAN §23.2 (M19): the second 3x row claimed the whole travel category on a hotels-only note and is now restricted to HOTEL_CHAIN_IDS, with an explicit 1x other-travel row. That row's note says \"the rest of travel\" and not \"other airlines\" on purpose: the §23.2 lint reads any mention of an airline on an unrestricted travel row as the over-claim it is built to catch, and it cannot tell a fallback note from a claim."
     },
     {
       "id": "amex_delta_reserve",
@@ -1145,7 +1233,34 @@
         {
           "category": "travel",
           "rate": 7.0,
-          "note": "Flights booked direct or via Amex Travel and select car rentals 7x; other hotels 3x"
+          "note": "Flights booked direct with the airline or through Amex Travel, and car rentals booked direct with select companies",
+          "chainIDs": [
+            "air_canada",
+            "alaska_airlines",
+            "allegiant_air",
+            "american_airlines",
+            "avelo_airlines",
+            "breeze_airways",
+            "british_airways",
+            "delta_air_lines",
+            "frontier_airlines",
+            "hawaiian_airlines",
+            "jetblue",
+            "southwest_airlines",
+            "spirit_airlines",
+            "sun_country_airlines",
+            "united_airlines",
+            "avis_budget",
+            "enterprise",
+            "hertz",
+            "national_alamo",
+            "turo"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 3.0,
+          "note": "Hotels outside the Hilton portfolio, and the rest of travel"
         },
         {
           "category": "dining",
@@ -1198,7 +1313,8 @@
       "popularityRank": 58,
       "sourceURL": "https://www.americanexpress.com/us/credit-cards/card/hilton-honors-aspire/",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": null,
+      "editorialNotes": "PLAN §23.2 (M19): the 7x row claimed the whole travel category on a flights-and-car-rental note. It is now restricted to the airline and car rental chains, and the 3x other-travel row is stated explicitly even though it equals flatRate, so a hotel outside Hilton reads correctly on Card Detail. \"Select car rental companies\" is modelled as the five car rental chains the catalog knows; the issuer does not publish the list."
     },
     {
       "id": "amex_marriott_brilliant",
@@ -1221,7 +1337,29 @@
         {
           "category": "travel",
           "rate": 3.0,
-          "note": "Flights booked direct 3x; other hotels 2x"
+          "note": "Flights booked direct with the airline",
+          "chainIDs": [
+            "air_canada",
+            "alaska_airlines",
+            "allegiant_air",
+            "american_airlines",
+            "avelo_airlines",
+            "breeze_airways",
+            "british_airways",
+            "delta_air_lines",
+            "frontier_airlines",
+            "hawaiian_airlines",
+            "jetblue",
+            "southwest_airlines",
+            "spirit_airlines",
+            "sun_country_airlines",
+            "united_airlines"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 2.0,
+          "note": "Hotels outside Marriott Bonvoy, and the rest of travel"
         },
         {
           "category": "dining",
@@ -1251,7 +1389,8 @@
       "popularityRank": 52,
       "sourceURL": "https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy-brilliant/",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": null,
+      "editorialNotes": "PLAN §23.2 (M19): the 3x row claimed the whole travel category on a flights-only note and is now restricted to AIRLINE_CHAIN_IDS; the 2x other-travel row is stated explicitly even though it equals flatRate."
     },
     {
       "id": "amex_marriott_bevy",
@@ -1403,7 +1542,8 @@
       "popularityRank": 1,
       "sourceURL": "https://creditcards.chase.com/rewards-credit-cards/sapphire/preferred",
       "verifiedAt": "2026-09-06",
-      "notes": "In-store supermarket purchases earn 1x — the 3x groceries row is online-only (channel=online) and is not scored at a physical store. June 2026 refresh added 3x gas/EV and 3x vacation homes (Airbnb/Vrbo). No cap on the 3x gas/EV row confirmed (press, chase.com/media.chase.com)."
+      "notes": "The 3x on groceries is for online orders only, so a trip to the supermarket earns 1x. The June 2026 refresh added 3x on gas and EV charging with no cap, and 3x on vacation homes such as Airbnb and Vrbo.",
+      "editorialNotes": "The groceries row is channel=online and is therefore never scored at a physical store. The absent cap on the 3x gas/EV row was confirmed from press and chase.com/media.chase.com. Vacation homes are not a Phase 1 category."
     },
     {
       "id": "chase_sapphire_reserve",
@@ -1422,7 +1562,39 @@
         {
           "category": "travel",
           "rate": 4.0,
-          "note": "Flights and hotels booked direct; other travel 1x"
+          "note": "Flights and hotels booked direct with the airline or hotel",
+          "chainIDs": [
+            "air_canada",
+            "alaska_airlines",
+            "allegiant_air",
+            "american_airlines",
+            "avelo_airlines",
+            "breeze_airways",
+            "british_airways",
+            "delta_air_lines",
+            "frontier_airlines",
+            "hawaiian_airlines",
+            "jetblue",
+            "southwest_airlines",
+            "spirit_airlines",
+            "sun_country_airlines",
+            "united_airlines",
+            "best_western",
+            "choice_hotels",
+            "disney_resorts",
+            "extended_stay",
+            "hilton",
+            "hyatt",
+            "ihg",
+            "marriott",
+            "motel_6",
+            "wyndham"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 1.0,
+          "note": "The rest of travel, car rentals and cruises included"
         },
         {
           "category": "travel",
@@ -1536,7 +1708,8 @@
       "popularityRank": 5,
       "sourceURL": "https://creditcards.chase.com/rewards-credit-cards/sapphire/reserve",
       "verifiedAt": "2026-09-06",
-      "notes": "2025 refresh: $795 fee, 4x direct flights/hotels, 8x Chase Travel."
+      "notes": "2025 refresh: a $795 fee, 4x on flights and hotels booked direct and 8x through Chase Travel. Travel that is neither, a rental car for instance, earns 1x.",
+      "editorialNotes": "PLAN §23.2 (M19): flights and hotels earn the same 4x here, so one restricted row naming both the airline and the hotel chains expresses it; two rows would be the same fact twice. The 1x other-travel row is explicit, as §23.2 asks."
     },
     {
       "id": "chase_freedom_unlimited",
@@ -1574,7 +1747,7 @@
       "popularityRank": 2,
       "sourceURL": "https://creditcards.chase.com/cash-back-credit-cards/freedom/unlimited",
       "verifiedAt": "2026-09-06",
-      "notes": "Freedom points cash out at 1.0¢ unless pooled with a Sapphire (standaloneCentsPerPoint / poolsWith).",
+      "notes": "Points cash out at 1.0 cent each unless you also hold a Sapphire card, which lifts them to the Ultimate Rewards value.",
       "standaloneCentsPerPoint": 1.0,
       "poolsWith": [
         "chase_sapphire_preferred",
@@ -1647,7 +1820,8 @@
       "popularityRank": 4,
       "sourceURL": "https://creditcards.chase.com/cash-back-credit-cards/freedom/flex",
       "verifiedAt": "2026-09-06",
-      "notes": "5% rotating quarterly categories on up to $1,500/quarter after activation — scored at 1x in Phase 1. Points cash out at 1.0¢ unless pooled with a Sapphire. 2026 quarterly calendar taken from aggregator round-ups of Chase's announcement (AwardWallet / NerdWallet / CNBC) — secondary: true; Q4 2026 is not announced yet and is omitted. verifiedAt stays null until chase.com's own calendar page is captured.",
+      "notes": "5% rotating quarterly categories on up to $1,500 a quarter, once you activate them. Tipoff shows the quarter's rate when it knows the categories and says so when it does not. Points cash out at 1.0 cent each unless you also hold a Sapphire card.",
+      "editorialNotes": "Rotating bonuses score at 1x in Phase 1 (PLAN §16.31.1 scores the quarter; the hedge copy carries the activation caveat). 2026 quarterly calendar taken from aggregator round-ups of Chase's announcement (AwardWallet / NerdWallet / CNBC), so secondary: true. Q4 2026 is not announced yet and is omitted. verifiedAt stays null until chase.com's own calendar page is captured.",
       "standaloneCentsPerPoint": 1.0,
       "poolsWith": [
         "chase_sapphire_preferred",
@@ -1675,7 +1849,8 @@
       "popularityRank": 95,
       "sourceURL": "https://creditcards.chase.com/cash-back-credit-cards/freedom/rise",
       "verifiedAt": "2026-09-06",
-      "notes": "Starter card; 1.5% everywhere (3% dining on up to $6,000 in the first 6 months is an intro promo, not modeled). Points cash out at 1.0¢ unless pooled with a Sapphire.",
+      "notes": "A starter card: 1.5% everywhere. New cardholders earn 3% on dining for the first six months on up to $6,000, which Tipoff does not count because it expires. Points cash out at 1.0 cent each unless you also hold a Sapphire card.",
+      "editorialNotes": "The six-month 3% dining offer is an intro promo and is not modelled, per the convention that sign-up and promotional first-year rates stay out of the catalog.",
       "standaloneCentsPerPoint": 1.0,
       "poolsWith": [
         "chase_sapphire_preferred",
@@ -1737,7 +1912,8 @@
       "popularityRank": 7,
       "sourceURL": "https://creditcards.chase.com/cash-back-credit-cards/amazon-prime-rewards",
       "verifiedAt": "2026-09-06",
-      "notes": "Whole Foods / Amazon Fresh in-store 5% is merchant-restricted (chainIDs, PLAN §16.10) so other grocers do not get 5%. Requires Prime membership. The 2023 refresh replaced the 2% drugstores category with local transit/commuting."
+      "notes": "Requires a Prime membership. The 5% on groceries is for Whole Foods and Amazon Fresh; other grocery stores earn 1%. The 2023 refresh replaced the 2% at drugstores with local transit and commuting.",
+      "editorialNotes": "The in-store 5% is merchant-restricted (chainIDs, PLAN §16.10) so other grocers do not get 5%."
     },
     {
       "id": "chase_amazon_visa",
@@ -1792,7 +1968,8 @@
       "popularityRank": 65,
       "sourceURL": "https://creditcards.chase.com/cash-back-credit-cards/amazon-rewards",
       "verifiedAt": "2026-09-06",
-      "notes": "2023 refresh replaced drugstores with local transit/commuting. Whole Foods in-store 3% is merchant-restricted (PLAN §16.13.3)."
+      "notes": "The 2023 refresh replaced drugstores with local transit and commuting. The 3% on groceries is for Whole Foods; other grocery stores earn 1%.",
+      "editorialNotes": "Whole Foods in-store 3% is merchant-restricted (PLAN §16.13.3)."
     },
     {
       "id": "chase_united_explorer",
@@ -1807,7 +1984,7 @@
         {
           "category": "travel",
           "rate": 3.0,
-          "note": "United purchases 3x",
+          "note": "United purchases",
           "chainIDs": [
             "united_airlines"
           ]
@@ -1815,7 +1992,24 @@
         {
           "category": "travel",
           "rate": 2.0,
-          "note": "Hotel stays booked direct with the hotel 2x; other travel 1x"
+          "note": "Hotel stays booked direct with the hotel",
+          "chainIDs": [
+            "best_western",
+            "choice_hotels",
+            "disney_resorts",
+            "extended_stay",
+            "hilton",
+            "hyatt",
+            "ihg",
+            "marriott",
+            "motel_6",
+            "wyndham"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 1.0,
+          "note": "The rest of travel"
         },
         {
           "category": "dining",
@@ -1829,13 +2023,13 @@
           "name": "Annual United Travel Credit",
           "amount": 100,
           "cadence": "annual",
-          "resetRule": "cardmemberYear",
-          "channel": "statementCredit",
+          "resetRule": "calendarYear",
+          "channel": "enrollment",
           "chainIDs": [
             "united_airlines"
           ],
-          "verifiedAt": "2026-10-29",
-          "note": "Conditional: requires seven United flight purchases of $100+ in the anniversary year. Appears in the offer terms rather than the benefit summary."
+          "verifiedAt": "2026-11-01",
+          "note": "Conditional: requires $10,000 of purchases in the calendar year. It pays as United TravelBank cash, not as a statement credit, so it is spendable on United flights rather than against your bill. Restructured from the earlier seven-flights-per-anniversary-year version."
         },
         {
           "id": "united_explorer_hotels_credit",
@@ -1923,7 +2117,8 @@
       "popularityRank": 20,
       "sourceURL": "https://creditcards.chase.com/travel-credit-cards/united/united-explorer",
       "verifiedAt": "2026-09-06",
-      "notes": "$0 intro fee first year, then $150."
+      "notes": "$0 intro fee first year, then $150. The annual $100 arrives as United TravelBank cash once you spend $10,000 in a calendar year, not as a statement credit.",
+      "editorialNotes": "PLAN §23.2 (M19): the 2x row claimed the whole travel category on a hotels-only note and is now restricted to HOTEL_CHAIN_IDS with an explicit 1x other-travel row. The earn RATES are untouched: PLAN §23.3 confirms 3x United and 2x hotels are correct, and the page's headline \"9x total miles\" bundles MileagePlus flying miles with the card's own 3x. docs/REVERIFY-2026-11.md (M19): the annual United credit was restructured on all three axes at once (trigger, channel, reset); see benefits.py."
     },
     {
       "id": "chase_united_quest",
@@ -1938,7 +2133,7 @@
         {
           "category": "travel",
           "rate": 4.0,
-          "note": "United purchases 4x",
+          "note": "United purchases",
           "chainIDs": [
             "united_airlines"
           ]
@@ -2074,7 +2269,7 @@
         {
           "category": "travel",
           "rate": 5.0,
-          "note": "United purchases 5x",
+          "note": "United purchases",
           "chainIDs": [
             "united_airlines"
           ]
@@ -2303,7 +2498,8 @@
       "popularityRank": 35,
       "sourceURL": "https://creditcards.chase.com/travel-credit-cards/southwest/plus",
       "verifiedAt": "2026-09-06",
-      "notes": "2026 refresh: fee $69 -> $99, dropped transit/streaming, added 2x gas/groceries (combined $5,000/yr cap), travel note simplified to 'Southwest purchases only' (chase.com). Existing holders' fee changes at their 2026 anniversary. Groceries excludes Walmart/Target per PLAN §16.11.2 (every Chase grocery row does)."
+      "notes": "2026 refresh: the fee went from $69 to $99, transit and streaming dropped out, and 2x on gas and groceries arrived with a combined $5,000 a year cap. If you already hold the card your fee changes at your 2026 anniversary. The grocery bonus does not apply at Walmart or Target.",
+      "editorialNotes": "2026 refresh taken from chase.com; the travel note was simplified to 'Southwest purchases only'. Groceries excludes Walmart/Target per PLAN §16.11.2 (every Chase grocery row does)."
     },
     {
       "id": "chase_southwest_premier",
@@ -2388,7 +2584,8 @@
       "popularityRank": 38,
       "sourceURL": "https://creditcards.chase.com/travel-credit-cards/southwest/premier",
       "verifiedAt": "2026-09-06",
-      "notes": "2026 refresh: fee $99 -> $149, dropped transit/streaming, added 2x groceries/dining (combined $8,000/yr cap) (chase.com). Existing holders' fee changes at their 2026 anniversary. Groceries excludes Walmart/Target per PLAN §16.11.2 (every Chase grocery row does)."
+      "notes": "2026 refresh: the fee went from $99 to $149, transit and streaming dropped out, and 2x on groceries and dining arrived with a combined $8,000 a year cap. If you already hold the card your fee changes at your 2026 anniversary. The grocery bonus does not apply at Walmart or Target.",
+      "editorialNotes": "2026 refresh taken from chase.com. Groceries excludes Walmart/Target per PLAN §16.11.2 (every Chase grocery row does)."
     },
     {
       "id": "chase_southwest_priority",
@@ -2459,7 +2656,8 @@
       "popularityRank": 44,
       "sourceURL": "https://creditcards.chase.com/travel-credit-cards/southwest/priority",
       "verifiedAt": "2026-09-06",
-      "notes": "2026 refresh: fee $149 -> $229, Southwest rate 3x -> 4x, dropped transit/streaming, added 2x gas/dining (chase.com). Existing holders' fee changes at their 2026 anniversary. PLAN §17.7.5 (M12a benefits run): the $75 travel credit is DISCONTINUED. What remains of the travel benefits (preferred seating, Extra Legroom, free first bag, 7,500 anniversary points) is not a statement credit — do not add a travel credit back. PLAN §17.10.1 (M12b): that ruling covered the travel credit only. The Chase-wide Instacart and DoorDash promos this card shares with Southwest Plus and Premier ARE carried."
+      "notes": "2026 refresh: the fee went from $149 to $229, the Southwest rate from 3x to 4x, transit and streaming dropped out, and 2x on gas and dining arrived. If you already hold the card your fee changes at your 2026 anniversary. The $75 travel credit is gone; preferred seating, Extra Legroom, a free first checked bag and 7,500 anniversary points are what remain, and none of them is a statement credit.",
+      "editorialNotes": "2026 refresh taken from chase.com. PLAN §17.7.5 (M12a benefits run): the $75 travel credit is DISCONTINUED and what remains is not a statement credit. Do not add a travel credit back. PLAN §17.10.1 (M12b): that ruling covered the travel credit only. The Chase-wide Instacart and DoorDash promos this card shares with Southwest Plus and Premier ARE carried. docs/REVERIFY-2026-11.md confirms the refreshed page still lists no annual travel credit, which closes the October spot-check that called a $229 card without one surprising."
     },
     {
       "id": "chase_marriott_boundless",
@@ -2582,7 +2780,8 @@
       "popularityRank": 78,
       "sourceURL": "https://creditcards.chase.com/travel-credit-cards/marriott-bonvoy/bold",
       "verifiedAt": "2026-09-06",
-      "notes": "Also 2x on select food delivery services. PLAN §17.7.6: not reached by the 2026-10 benefits research; benefits deliberately left empty rather than guessed."
+      "notes": "Also earns 2x on select food delivery services.",
+      "editorialNotes": "PLAN §17.7.6: not reached by the 2026-10 benefits research; benefits deliberately left empty rather than guessed."
     },
     {
       "id": "chase_marriott_bountiful",
@@ -2735,7 +2934,7 @@
       "popularityRank": 47,
       "sourceURL": "https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/premier",
       "verifiedAt": "2026-09-06",
-      "notes": "IHG stays effectively earn up to 26x including elite status."
+      "notes": "An IHG stay can earn up to 26x in total once elite status and the loyalty programme are counted. The 10x here is the card's own share."
     },
     {
       "id": "chase_ihg_traveler",
@@ -2806,7 +3005,8 @@
       "popularityRank": 72,
       "sourceURL": "https://creditcards.chase.com/travel-credit-cards/ihg-rewards-club/traveler",
       "verifiedAt": "2026-09-06",
-      "notes": "Also 3x utilities and select streaming (not modeled)."
+      "notes": "Also earns 3x on utilities and select streaming, which Tipoff does not track.",
+      "editorialNotes": "Utilities are not a Phase 1 category; the streaming row is deliberately absent because the issuer's list is a subset Tipoff cannot name."
     },
     {
       "id": "chase_world_of_hyatt",
@@ -2829,7 +3029,29 @@
         {
           "category": "travel",
           "rate": 2.0,
-          "note": "Airline tickets booked direct 2x; other travel 1x"
+          "note": "Airline tickets booked direct with the airline",
+          "chainIDs": [
+            "air_canada",
+            "alaska_airlines",
+            "allegiant_air",
+            "american_airlines",
+            "avelo_airlines",
+            "breeze_airways",
+            "british_airways",
+            "delta_air_lines",
+            "frontier_airlines",
+            "hawaiian_airlines",
+            "jetblue",
+            "southwest_airlines",
+            "spirit_airlines",
+            "sun_country_airlines",
+            "united_airlines"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 1.0,
+          "note": "The rest of travel"
         },
         {
           "category": "dining",
@@ -2852,7 +3074,8 @@
       "popularityRank": 36,
       "sourceURL": "https://creditcards.chase.com/travel-credit-cards/world-of-hyatt",
       "verifiedAt": "2026-09-06",
-      "notes": "Also 2x fitness clubs (not modeled)."
+      "notes": "Also earns 2x at fitness clubs, which Tipoff does not track.",
+      "editorialNotes": "Fitness clubs are not a Phase 1 category. PLAN §23.2 (M19): the 2x row claimed the whole travel category on an airline-tickets-only note and is now restricted to AIRLINE_CHAIN_IDS with an explicit 1x other-travel row. docs/REVERIFY-2026-11.md: citi-style page degradation here too, the 2026-11-01 page lists only the Hyatt rate, so the 2x rows still rest on the 2026-09 verification."
     },
     {
       "id": "chase_aeroplan",
@@ -2944,7 +3167,24 @@
         {
           "category": "travel",
           "rate": 2.0,
-          "note": "Hotels booked direct 2x; other travel 1x"
+          "note": "Hotels booked direct with the hotel",
+          "chainIDs": [
+            "best_western",
+            "choice_hotels",
+            "disney_resorts",
+            "extended_stay",
+            "hilton",
+            "hyatt",
+            "ihg",
+            "marriott",
+            "motel_6",
+            "wyndham"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 1.0,
+          "note": "The rest of travel"
         }
       ],
       "rotating": null,
@@ -2972,7 +3212,8 @@
       "popularityRank": 96,
       "sourceURL": "https://creditcards.chase.com/travel-credit-cards/british-airways",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": null,
+      "editorialNotes": "PLAN §23.2 audit (M19): the 2x row claimed the whole travel category on a hotels-only note. It is not one of the ten §22.2 named (its note says hotels, not flights) but it is the same defect, so it is fixed the same way."
     },
     {
       "id": "chase_disney_premier",
@@ -3003,7 +3244,7 @@
         {
           "category": "everythingElse",
           "rate": 2.0,
-          "note": "Most Disney locations — parks, Disney Store (not airlines)",
+          "note": "Most Disney locations: parks and the Disney Store, not airlines",
           "chainIDs": [
             "disney"
           ]
@@ -3044,7 +3285,8 @@
       "popularityRank": 88,
       "sourceURL": "https://creditcards.chase.com/rewards-credit-cards/disney/premier",
       "verifiedAt": "2026-09-06",
-      "notes": "Earns Disney Rewards Dollars (1 = $1 at Disney) — modeled as cash. Current terms: 2% gas, grocery, restaurants, most Disney locations (merchant-restricted: the `disney` parks/stores chain, PLAN §16.14.5, and the `disney_resorts` hotel chain, PLAN §16.16.3); 5% Disney+/Hulu/ESPN+ (streaming bundle, not modeled). $49 fee confirmed only via secondary 2026 reviews (chase.com omits the fee)."
+      "notes": "Earns Disney Rewards Dollars, where 1 is worth $1 at Disney. 2% on gas, groceries, restaurants and most Disney locations, the parks, the Disney Store and the resort hotels included. The 5% on Disney+, Hulu and ESPN+ is not something Tipoff tracks.",
+      "editorialNotes": "Rewards Dollars are modelled as cash. Most Disney locations are two merchant-restricted rows: the `disney` parks and stores chain (PLAN §16.14.5) and the `disney_resorts` hotel chain (PLAN §16.16.3). The streaming bundle is not modelled. The $49 fee is confirmed only via secondary 2026 reviews; chase.com omits the fee."
     },
     {
       "id": "chase_instacart",
@@ -3161,7 +3403,8 @@
       "popularityRank": 9,
       "sourceURL": "https://www.citi.com/credit-cards/citi-double-cash-credit-card",
       "verifiedAt": "2026-09-06",
-      "notes": "1% when you buy + 1% when you pay, as ThankYou Points. Worth 1.0¢ (= 2% cash) unless pooled with a Strata Premier/Elite, which unlocks transfer partners at the program default. Displayed as a percent (PLAN §16.6.2).",
+      "notes": "1% when you buy and 1% again when you pay it off, as ThankYou Points worth 1.0 cent each, so 2% in effect. Holding a Strata Premier or Strata Elite alongside it unlocks transfer partners and a higher value per point.",
+      "editorialNotes": "Displayed as a percent (PLAN §16.6.2).",
       "standaloneCentsPerPoint": 1.0,
       "poolsWith": [
         "citi_strata_premier",
@@ -3254,7 +3497,8 @@
       "popularityRank": 11,
       "sourceURL": "https://www.citi.com/credit-cards/citi-custom-cash-credit-card",
       "verifiedAt": "2026-09-06",
-      "notes": "Closed to new applicants as of May 28, 2026; kept for existing cardholders. 5% applies to ONE category per cycle (your highest spend, up to $500). Every eligible category is listed so any single category recommendation is correct in isolation, but the card cannot earn 5% in two categories in the same cycle. ThankYou Points worth 1.0¢ unless pooled with a Strata Premier/Elite.",
+      "notes": "Closed to new applicants as of May 28, 2026, and kept for existing cardholders. The 5% applies to one category per billing cycle, whichever you spend most in, on the first $500. It cannot pay 5% in two categories in the same cycle, so treat each 5% Tipoff shows you as \"if this is your top category this month\". ThankYou Points are worth 1.0 cent each unless you also hold a Strata Premier or Elite.",
+      "editorialNotes": "Every eligible category is listed so a single-category recommendation is correct in isolation; the one-at-a-time rule is expressed by the shared cap pot (PLAN §17.8.1, CUSTOM_CASH_POT) and in the note above, and it is the one over-claim the PLAN §23.2 cross-category audit found that chainIDs cannot fix. Existing-holder 5% terms could not be re-read (§16.27, and docs/REVERIFY-2026-11.md records the citi.com page as 'Not Available' on 2026-11-01), so they are assumed unchanged.",
       "status": "closedToNew",
       "standaloneCentsPerPoint": 1.0,
       "poolsWith": [
@@ -3289,7 +3533,39 @@
         {
           "category": "travel",
           "rate": 3.0,
-          "note": "Air travel and hotels"
+          "note": "Air travel and hotels booked direct",
+          "chainIDs": [
+            "air_canada",
+            "alaska_airlines",
+            "allegiant_air",
+            "american_airlines",
+            "avelo_airlines",
+            "breeze_airways",
+            "british_airways",
+            "delta_air_lines",
+            "frontier_airlines",
+            "hawaiian_airlines",
+            "jetblue",
+            "southwest_airlines",
+            "spirit_airlines",
+            "sun_country_airlines",
+            "united_airlines",
+            "best_western",
+            "choice_hotels",
+            "disney_resorts",
+            "extended_stay",
+            "hilton",
+            "hyatt",
+            "ihg",
+            "marriott",
+            "motel_6",
+            "wyndham"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 1.0,
+          "note": "The rest of travel, car rentals included"
         },
         {
           "category": "travel",
@@ -3321,7 +3597,8 @@
       "popularityRank": 14,
       "sourceURL": "https://www.citi.com/credit-cards/citi-strata-premier-credit-card",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": "The 3x on travel is for air travel and hotels. A rental car booked direct earns 1x; through Citi Travel it earns 10x.",
+      "editorialNotes": "PLAN §23.2 audit (M19): \"Air travel and hotels\" is the §22.2 over-claim in softer words, since Tipoff's travel category also covers car rental, so the row is now restricted to the airline and hotel chains with an explicit 1x fallback."
     },
     {
       "id": "citi_strata_elite",
@@ -3404,7 +3681,8 @@
       "popularityRank": 62,
       "sourceURL": "https://www.citi.com/credit-cards/citi-strata-elite-credit-card",
       "verifiedAt": "2026-09-06",
-      "notes": "Launched 2025. Direct air travel earns the 1.5x flat rate; 6x applies only to air travel booked on cititravel.com (2026-09 verification, citi.com). Fee confirmed via secondary sources only."
+      "notes": "Launched in 2025. A flight booked with the airline earns the flat 1.5x; the 6x on air travel is for bookings made on cititravel.com.",
+      "editorialNotes": "Rates from citi.com at the 2026-09 verification. The fee is confirmed via secondary sources only."
     },
     {
       "id": "citi_rewards_plus",
@@ -3445,7 +3723,8 @@
       "popularityRank": 116,
       "sourceURL": "https://www.citi.com/credit-cards/citi-rewards-plus-credit-card",
       "verifiedAt": "2026-09-06",
-      "notes": "Converted: Citi Rewards+ was discontinued on 2025-07-20 and every account became a Citi Strata Card (citi_strata); the round-up and 10% rebate ended (grandfathered to 2026-07-19). Legacy terms kept so saved states resolve. ThankYou Points worth 1.0¢ unless pooled with a Strata Premier/Elite. Displayed as a percent (PLAN §16.6.2).",
+      "notes": "Citi Rewards+ was discontinued on 2025-07-20 and every account became a Citi Strata Card. The round-up and the 10% rebate ended, grandfathered until 2026-07-19. ThankYou Points are worth 1.0 cent each unless you also hold a Strata Premier or Elite.",
+      "editorialNotes": "Legacy terms kept so saved states resolve (status converted, convertedTo citi_strata). Displayed as a percent (PLAN §16.6.2).",
       "status": "converted",
       "convertedTo": "citi_strata",
       "standaloneCentsPerPoint": 1.0,
@@ -3502,7 +3781,8 @@
       "popularityRank": 66,
       "sourceURL": "https://www.citi.com/credit-cards/citi-rewards-plus-credit-card",
       "verifiedAt": "2026-09-06",
-      "notes": "Formerly Citi Rewards+ Card: Rewards+ became Citi Strata Card (2025-07-20). Round-up and 10% rebate ended (grandfathered to 2026-07-19). Plus 3x on one self-select category (streaming is an option) — not modeled. ThankYou Points worth 1.0¢ unless pooled with a Strata Premier/Elite. No 3x supermarket cap found on citi.com — confirmed uncapped.",
+      "notes": "The former Citi Rewards+ Card, renamed on 2025-07-20. The round-up and the 10% rebate ended, grandfathered until 2026-07-19. There is also 3x in one category you pick yourself, streaming among them, which Tipoff cannot predict. The 3x on supermarkets has no cap. ThankYou Points are worth 1.0 cent each unless you also hold a Strata Premier or Elite.",
+      "editorialNotes": "The self-select 3x category is not modelled because it is the user's choice. No supermarket cap was found on citi.com, so it is recorded as confirmed uncapped rather than unknown.",
       "standaloneCentsPerPoint": 1.0,
       "poolsWith": [
         "citi_strata_premier",
@@ -3563,7 +3843,8 @@
       "popularityRank": 26,
       "sourceURL": "https://www.citi.com/credit-cards/citi-aadvantage-platinum-select-world-elite-mastercard",
       "verifiedAt": "2026-09-06",
-      "notes": "$0 intro fee first year. Successor to the Barclays AAdvantage Aviator Red (accounts converted 2026-04-24)."
+      "notes": "$0 intro fee the first year. This is the card Barclays AAdvantage Aviator Red accounts became on 2026-04-24.",
+      "editorialNotes": "docs/REVERIFY-2026-11.md: citi.com renders this card's annual fee as a blank placeholder (the behaviour September hit on Strata Elite), so the $99 is unverified for a second pass. No change proposed and none made."
     },
     {
       "id": "citi_aadvantage_executive",
@@ -3578,7 +3859,7 @@
         {
           "category": "travel",
           "rate": 4.0,
-          "note": "American Airlines purchases 4x (5x after $150k/yr); AAdvantage Hotels/Cars bookings 12x; other travel 1x",
+          "note": "American Airlines purchases (5x after $150k/yr); AAdvantage Hotels/Cars bookings 12x; other travel 1x",
           "chainIDs": [
             "american_airlines"
           ]
@@ -3672,7 +3953,8 @@
       "popularityRank": 84,
       "sourceURL": "https://www.citi.com/credit-cards/citi-aadvantage-executive-credit-card",
       "verifiedAt": "2026-09-06",
-      "notes": "Formerly Citi / AAdvantage Executive World Elite Mastercard (renamed World Legend in the 2026 refresh, citigroup.com press release). Fee raised $595 -> $695 effective 2026-08-23; existing holders pay at renewal."
+      "notes": "Renamed from World Elite to World Legend in the 2026 refresh. The fee went from $595 to $695 on 2026-08-23; if you already hold the card you pay it at renewal.",
+      "editorialNotes": "Rename confirmed from the citigroup.com press release."
     },
     {
       "id": "citi_aadvantage_mileup",
@@ -3770,7 +4052,8 @@
       "popularityRank": 10,
       "sourceURL": "https://www.citi.com/credit-cards/citi-costco-anywhere-visa-credit-card",
       "verifiedAt": "2026-09-06",
-      "notes": "Requires Costco membership; rewards paid as an annual certificate. 2025 terms: 5% on gas at Costco (merchant-restricted row, PLAN §16.10), 4% other gas/EV (shared $7k cap), 3% restaurants and eligible travel, 2% at Costco (merchant-restricted to `costco`, PLAN §16.13.3 — Sam's Club and BJ's earn 1%)."
+      "notes": "Requires a Costco membership, and the rewards arrive once a year as a certificate. 2025 terms: 5% on gas at Costco and 4% on gas and EV charging elsewhere, sharing a $7,000 a year cap, 3% on restaurants and eligible travel, and 2% at Costco. Sam's Club and BJ's earn 1%.",
+      "editorialNotes": "The 5% Costco gas row and the 2% at Costco are merchant-restricted rows (PLAN §16.10, §16.13.3)."
     },
     {
       "id": "capone_venture_x",
@@ -3942,7 +4225,8 @@
       "popularityRank": 16,
       "sourceURL": "https://www.capitalone.com/credit-cards/savor/",
       "verifiedAt": "2026-09-06",
-      "notes": "3% on entertainment too (not a Phase 1 category). SavorOne merged into Savor in 2024."
+      "notes": "Also earns 3% on entertainment, which Tipoff does not track. SavorOne merged into Savor in 2024.",
+      "editorialNotes": "Entertainment is not a Phase 1 category."
     },
     {
       "id": "capone_savor_student",
@@ -4125,7 +4409,8 @@
       "popularityRank": 18,
       "sourceURL": "https://www.discover.com/credit-cards/cash-back/it-card.html",
       "verifiedAt": "2026-09-06",
-      "notes": "5% rotating quarterly categories up to $1,500/quarter after activation — scored at 1% in Phase 1. First-year Cashback Match not modeled. 2026 quarterly calendar taken from aggregator round-ups of Discover's announcement (AwardWallet / NerdWallet / CNBC) — secondary: true; verifiedAt stays null until discover.com's own calendar page is captured."
+      "notes": "5% rotating quarterly categories on up to $1,500 a quarter, once you activate them. Discover also matches all the cash back you earn in your first year, which Tipoff does not count.",
+      "editorialNotes": "Rotating bonuses score at 1% in Phase 1; the first-year Cashback Match is not modelled. 2026 quarterly calendar taken from aggregator round-ups of Discover's announcement (AwardWallet / NerdWallet / CNBC), so secondary: true. verifiedAt stays null until discover.com's own calendar page is captured."
     },
     {
       "id": "discover_it_miles",
@@ -4148,7 +4433,7 @@
       "popularityRank": 46,
       "sourceURL": "https://www.discover.com/credit-cards/travel/it-miles.html",
       "verifiedAt": "2026-09-06",
-      "notes": "1.5 miles per $1, redeemable at 1¢ — modeled as 1.5% cash."
+      "notes": "1.5 miles per dollar, each redeemable for 1 cent, so 1.5% in effect."
     },
     {
       "id": "discover_it_chrome",
@@ -4255,7 +4540,8 @@
       "popularityRank": 76,
       "sourceURL": "https://www.discover.com/credit-cards/student-credit-card/it-card.html",
       "verifiedAt": "2026-09-06",
-      "notes": "Same rotating 5% program as Discover it Cash Back. 2026 quarterly calendar taken from aggregator round-ups of Discover's announcement (AwardWallet / NerdWallet / CNBC) — secondary: true; verifiedAt stays null until discover.com's own calendar page is captured."
+      "notes": "The same rotating 5% programme as Discover it Cash Back.",
+      "editorialNotes": "2026 quarterly calendar taken from aggregator round-ups of Discover's announcement (AwardWallet / NerdWallet / CNBC), so secondary: true. verifiedAt stays null until discover.com's own calendar page is captured."
     },
     {
       "id": "discover_it_secured",
@@ -4315,7 +4601,7 @@
           "capPeriod": "quarter",
           "capUnit": "spend",
           "capGroupID": "customized_cash_choice",
-          "note": "Default 3% choice category (gas & EV). User may pick online shopping, dining, travel, drugstores, or home improvement instead"
+          "note": "3% if gas and EV charging is your chosen category, which is what Tipoff assumes. The other choices are online shopping, dining, travel, drugstores and home improvement"
         },
         {
           "category": "groceries",
@@ -4350,7 +4636,8 @@
       "popularityRank": 19,
       "sourceURL": "https://www.bankofamerica.com/credit-cards/products/cash-back-credit-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "Choice category modeled as gas (the default). Preferred Rewards 25–75% boosts not modeled. New cardholders get 6% in the choice category the first year (promo, not modeled)."
+      "notes": "You pick the 3% category; Tipoff assumes gas and EV charging, which is the default. Bank of America's Preferred Rewards tiers add 25% to 75% on top, and new cardholders get 6% in the chosen category for the first year. Tipoff counts neither.",
+      "editorialNotes": "Choice category modelled as gas (the default). Preferred Rewards boosts and the first-year 6% promo are not modelled."
     },
     {
       "id": "bofa_unlimited_cash",
@@ -4373,7 +4660,8 @@
       "popularityRank": 39,
       "sourceURL": "https://www.bankofamerica.com/credit-cards/products/unlimited-cash-back-credit-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "Preferred Rewards boosts not modeled. 2% first year for new cardholders is a promo."
+      "notes": "Bank of America's Preferred Rewards tiers add to this rate, and new cardholders earn 2% for the first year. Tipoff counts neither.",
+      "editorialNotes": "Preferred Rewards boosts and the first-year 2% promo are not modelled."
     },
     {
       "id": "bofa_travel_rewards",
@@ -4396,7 +4684,8 @@
       "popularityRank": 24,
       "sourceURL": "https://www.bankofamerica.com/credit-cards/products/travel-rewards-credit-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "Points worth 1¢ toward travel/dining statement credits. Preferred Rewards boosts not modeled."
+      "notes": "Points are worth 1 cent each toward travel and dining statement credits. Bank of America's Preferred Rewards tiers add to the rate, which Tipoff does not count.",
+      "editorialNotes": "Preferred Rewards boosts are not modelled."
     },
     {
       "id": "bofa_premium_rewards",
@@ -4450,7 +4739,8 @@
       "popularityRank": 43,
       "sourceURL": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-credit-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "Rates confirmed on bankofamerica.com; the $95 fee only via secondary 2026 reviews."
+      "notes": null,
+      "editorialNotes": "Rates confirmed on bankofamerica.com. docs/REVERIFY-2026-11.md: the $95 fee is now confirmed on bankofamerica.com too, so the September secondary dependency is retired; no field changed."
     },
     {
       "id": "bofa_premium_rewards_elite",
@@ -4514,7 +4804,8 @@
       "popularityRank": 89,
       "sourceURL": "https://www.bankofamerica.com/credit-cards/products/premium-rewards-elite-credit-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "Rates confirmed on bankofamerica.com; the $550 fee only via secondary (NerdWallet)."
+      "notes": null,
+      "editorialNotes": "Rates confirmed on bankofamerica.com; the $550 fee only via secondary (NerdWallet)."
     },
     {
       "id": "bofa_alaska_airlines",
@@ -4531,7 +4822,8 @@
           "rate": 3.0,
           "note": "Alaska Airlines and Hawaiian Airlines purchases only; other travel 1x",
           "chainIDs": [
-            "alaska_airlines"
+            "alaska_airlines",
+            "hawaiian_airlines"
           ]
         },
         {
@@ -4561,7 +4853,8 @@
       "popularityRank": 37,
       "sourceURL": "https://www.bankofamerica.com/credit-cards/products/alaska-airlines-credit-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "Formerly Alaska Airlines Visa Signature Credit Card (renamed with the Atmos Rewards program, 2026 — secondary sources: NerdWallet, CNBC)."
+      "notes": "Formerly the Alaska Airlines Visa Signature Card, renamed with the Atmos Rewards programme in 2026.",
+      "editorialNotes": "The rename was secondary-sourced in September (NerdWallet, CNBC); docs/REVERIFY-2026-11.md confirms it from bankofamerica.com, so this card is issuer-sourced now. No field changed."
     },
     {
       "id": "wf_active_cash",
@@ -4644,8 +4937,47 @@
       "earn": [
         {
           "category": "travel",
+          "rate": 5.0,
+          "note": "Hotels booked direct with the hotel",
+          "chainIDs": [
+            "best_western",
+            "choice_hotels",
+            "disney_resorts",
+            "extended_stay",
+            "hilton",
+            "hyatt",
+            "ihg",
+            "marriott",
+            "motel_6",
+            "wyndham"
+          ]
+        },
+        {
+          "category": "travel",
           "rate": 4.0,
-          "note": "Hotels 5x, airlines 4x, other travel 3x"
+          "note": "Airlines",
+          "chainIDs": [
+            "air_canada",
+            "alaska_airlines",
+            "allegiant_air",
+            "american_airlines",
+            "avelo_airlines",
+            "breeze_airways",
+            "british_airways",
+            "delta_air_lines",
+            "frontier_airlines",
+            "hawaiian_airlines",
+            "jetblue",
+            "southwest_airlines",
+            "spirit_airlines",
+            "sun_country_airlines",
+            "united_airlines"
+          ]
+        },
+        {
+          "category": "travel",
+          "rate": 3.0,
+          "note": "The rest of travel"
         },
         {
           "category": "dining",
@@ -4674,7 +5006,8 @@
       "popularityRank": 59,
       "sourceURL": "https://creditcards.wellsfargo.com/autograph-journey-visa-credit-card/",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": "Travel splits three ways: 5x at hotels, 4x with airlines and 3x on everything else that counts as travel.",
+      "editorialNotes": "PLAN §23.2 audit (M19): one 4x row claimed the whole category while its own note said hotels 5x, airlines 4x and other travel 3x, so it was wrong in both directions at once. This is the \"distinct flight and hotel rates\" case from §23.2: two restricted rows plus the unrestricted fallback."
     },
     {
       "id": "wf_attune",
@@ -4703,7 +5036,8 @@
       "popularityRank": 97,
       "sourceURL": "https://creditcards.wellsfargo.com/attune-credit-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "Closed to new applicants 2026-06-15; existing holders unaffected (PLAN §16.14.2: closedToNew, still in the picker). 4% self-care/sports/entertainment/public transit/EV charging, 1% else. Public transit and EV charging are now modeled at 4x (transit category); self-care/sports/entertainment are not Phase 1 categories and stay at 1x. Source: Frequent Miler (secondary); the wellsfargo.com Attune URL redirects to the card listing.",
+      "notes": "Closed to new applicants on 2026-06-15; existing holders are unaffected. 4% on self-care, sports, entertainment, public transport and EV charging, 1% elsewhere. Tipoff tracks the transport and EV charging part; the others are not categories it knows.",
+      "editorialNotes": "PLAN §16.14.2: closedToNew, still in the picker. Public transit and EV charging are modelled at 4x (transit category); self-care, sports and entertainment are not Phase 1 categories and stay at 1x. Source: Frequent Miler (secondary); the wellsfargo.com Attune URL redirects to the card listing.",
       "status": "closedToNew"
     },
     {
@@ -4745,7 +5079,7 @@
       "popularityRank": 99,
       "sourceURL": "https://creditcards.wellsfargo.com/choice-hotel-privileges-mastercard",
       "verifiedAt": "2026-09-06",
-      "notes": "Also 3x home improvement and phone plans."
+      "notes": "Also earns 3x on home improvement and phone plans, which Tipoff does not track."
     },
     {
       "id": "wf_one_key",
@@ -4787,7 +5121,7 @@
       "popularityRank": 81,
       "sourceURL": "https://creditcards.wellsfargo.com/one-key-credit-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "Earns OneKeyCash (1 = $1 on Expedia group) — modeled as cash. Product page live with application CTA on 2026-09-06; not discontinued. Welcome offer $300 OneKeyCash. The 3% travel rate is Expedia-group bookings only (channel=online), so it is not scored at a hotel desk."
+      "notes": "Earns OneKeyCash (1 = $1 on Expedia group), modeled as cash. Product page live with application CTA on 2026-09-06; not discontinued. Welcome offer $300 OneKeyCash. The 3% travel rate is Expedia-group bookings only (channel=online), so it is not scored at a hotel desk."
     },
     {
       "id": "usbank_altitude_reserve",
@@ -4802,11 +5136,28 @@
         {
           "category": "travel",
           "rate": 3.0,
-          "note": "Direct travel 3x; Altitude Rewards Center 5x"
+          "note": "Travel booked direct"
+        },
+        {
+          "category": "travel",
+          "rate": 10.0,
+          "note": "Travel Center prepaid hotels and car rentals 10x; prepaid flights 5x",
+          "channel": "portal"
         }
       ],
       "rotating": null,
-      "benefits": [],
+      "benefits": [
+        {
+          "id": "altitude_reserve_travel_credit",
+          "name": "Travel and Dining Credit",
+          "amount": 325,
+          "cadence": "annual",
+          "resetRule": "cardmemberYear",
+          "channel": "statementCredit",
+          "verifiedAt": "2026-11-01",
+          "note": "Up to $325 per cardmember year, measured from your account opening date, against travel and restaurant purchases including takeout and delivery. U.S. Bank's own benefit page settles the scope, but it was reported as roughly 1,286 days old, so confirm on a live account before relying on restaurant spend drawing it down."
+        }
+      ],
       "style": {
         "base": "#0C1B33",
         "accent": "#C0C7D4",
@@ -4814,9 +5165,10 @@
         "textOnCard": "light"
       },
       "popularityRank": 61,
-      "sourceURL": "https://www.usbank.com/credit-cards/altitude-reserve-visa-infinite-credit-card.html",
+      "sourceURL": "https://rewards.usbank.com/benefits/card/AltitudeReserveBenefits/program-rules",
       "verifiedAt": null,
-      "notes": "3x on ALL mobile-wallet purchases (Apple Pay) is the card's headline — not expressible as a category; flatRate is 1x for physical-card taps. Points worth 1.5¢ on travel. Closed to new applicants late 2024; the catalog URL now serves the general U.S. Bank card listing and existing-holder terms could not be re-read (2026-09 verification: unconfirmed). PLAN §17.7.6: the 2026-10 benefits research reached only a secondary source (NerdWallet) for the $325 travel/dining credit, so this card carries no benefits rather than an unconfirmed one.",
+      "notes": "The headline 3x on mobile wallet purchases such as Apple Pay covers the first $5,000 each billing cycle; above that, and on a tap with the physical card, you earn 1x. Points are worth 1.5 cents each toward travel. Closed to new applicants in late 2024.",
+      "editorialNotes": "The mobile-wallet rate is not expressible as a category, so flatRate is 1x and the cap lives in this note. docs/REVERIFY-2026-11.md (M19, all issuer-sourced): the $5,000-per-cycle cap, the Travel Center portal rows and the $325 credit come from U.S. Bank's own existing-cardholder pages at rewards.usbank.com, which is now the sourceURL because the product URL still serves the general card listing. Travel 3x and base 1x were re-confirmed there. Still UNCONFIRMED for a second pass: the $400 annual fee (no page states a figure) and the 1.5 cents travel valuation, so verifiedAt stays null (PLAN §16.21.2: pendingConfirmation is verifiedAt == nil). Founder spot-checks from that pass, deliberately not applied: the research argues the status should be closedToNew rather than discontinued, since U.S. Bank maintains live program-rules and FAQ pages, but no page says so; and the portal figures are a page summary rather than a verbatim sentence.",
       "status": "discontinued"
     },
     {
@@ -4840,7 +5192,11 @@
         {
           "category": "groceries",
           "rate": 2.0,
-          "note": "Grocery stores and grocery delivery (excl. discount stores/supercenters/wholesale)"
+          "note": "Grocery stores and grocery delivery (excl. discount stores/supercenters/wholesale)",
+          "excludedChainIDs": [
+            "walmart",
+            "target"
+          ]
         },
         {
           "category": "gas",
@@ -4874,7 +5230,8 @@
       "popularityRank": 27,
       "sourceURL": "https://www.usbank.com/credit-cards/altitude-go-visa-signature-credit-card.html",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": null,
+      "editorialNotes": "PLAN §24 (M20): the grocery exclusion the note has always claimed is now in the data. The issuer page settles it: U.S. Bank's own earn-rate footnote reads \"wholesale clubs and discount stores/supercenters such as Target and Walmart will earn only 1 Point\". The note was right and the row was wrong, so this overrules §16.11.2's \"leave U.S. Bank unexcluded\" on the evidence §24 asked for. SUPERSTORES is walmart and target only; Meijer and Smart & Final are supercenter/warehouse formats that code 5411 and are still unexcluded here, exactly as they are on every Amex, Chase and BofA grocery row."
     },
     {
       "id": "usbank_altitude_connect",
@@ -4907,7 +5264,11 @@
         {
           "category": "groceries",
           "rate": 2.0,
-          "note": "Excl. supercenters/wholesale"
+          "note": "Excl. supercenters/wholesale",
+          "excludedChainIDs": [
+            "walmart",
+            "target"
+          ]
         },
         {
           "category": "dining",
@@ -4929,7 +5290,8 @@
       "popularityRank": 54,
       "sourceURL": "https://www.usbank.com/credit-cards/altitude-connect-visa-signature-credit-card.html",
       "verifiedAt": "2026-09-06",
-      "notes": "Annual fee dropped to $0 in 2024. PLAN §17.7.6: the 2026-10 benefits research found no statement credit it could confirm, so this card carries none rather than a guess."
+      "notes": "The annual fee dropped to $0 in 2024.",
+      "editorialNotes": "PLAN §17.7.6: the 2026-10 benefits research found no statement credit it could confirm, so this card carries none rather than a guess. PLAN §24 (M20): the grocery exclusion the note has always claimed is now in the data. The issuer page settles it: U.S. Bank's own earn-rate footnote reads \"wholesale clubs and discount stores/supercenters such as Target and Walmart will earn only 1 Point\". The note was right and the row was wrong, so this overrules §16.11.2's \"leave U.S. Bank unexcluded\" on the evidence §24 asked for. SUPERSTORES is walmart and target only; Meijer and Smart & Final are supercenter/warehouse formats that code 5411 and are still unexcluded here, exactly as they are on every Amex, Chase and BofA grocery row."
     },
     {
       "id": "usbank_cash_plus",
@@ -4948,7 +5310,7 @@
           "capPeriod": "quarter",
           "capUnit": "spend",
           "capGroupID": "cash_plus_choice",
-          "note": "Modeled default 5% choice category (TV/internet/streaming)"
+          "note": "5% if TV, internet and streaming is one of your two chosen categories, which is what Tipoff assumes"
         },
         {
           "category": "transit",
@@ -4957,12 +5319,12 @@
           "capPeriod": "quarter",
           "capUnit": "spend",
           "capGroupID": "cash_plus_choice",
-          "note": "Modeled second 5% choice (ground transportation)"
+          "note": "5% if ground transport is your other chosen category, which is what Tipoff assumes"
         },
         {
           "category": "groceries",
           "rate": 2.0,
-          "note": "Modeled 2% everyday choice; user may choose gas or restaurants instead"
+          "note": "2% if groceries is your everyday category; gas and restaurants are the other options"
         }
       ],
       "rotating": null,
@@ -4976,7 +5338,8 @@
       "popularityRank": 29,
       "sourceURL": "https://www.usbank.com/credit-cards/cash-plus-visa-signature-credit-card.html",
       "verifiedAt": "2026-09-06",
-      "notes": "Two 5% categories and one 2% category are user-selected each quarter; the modeled defaults are editorial guesses."
+      "notes": "You pick two 5% categories and one 2% category each quarter. Tipoff has to assume a set, so it shows streaming, ground transport and groceries; change those in your own account and these rates will be wrong for you.",
+      "editorialNotes": "The modelled defaults are editorial guesses, which is why the user-facing note says so plainly."
     },
     {
       "id": "usbank_smartly",
@@ -4999,7 +5362,7 @@
       "popularityRank": 49,
       "sourceURL": "https://www.usbank.com/credit-cards/bank-smartly-visa-signature-credit-card.html",
       "verifiedAt": "2026-09-06",
-      "notes": "Up to 4% with large U.S. Bank deposit balances — 2% base modeled. 2025 changes: the 4% tier now needs $100k+ in deposits and excludes several categories (education, insurance, taxes, business-to-business)."
+      "notes": "Up to 4% if you keep large balances with U.S. Bank; Tipoff shows the 2% base. Since 2025 the 4% tier needs $100,000 or more on deposit and leaves out education, insurance, taxes and business-to-business spend."
     },
     {
       "id": "usbank_shopper_cash_rewards",
@@ -5022,7 +5385,8 @@
       "popularityRank": 94,
       "sourceURL": "https://www.usbank.com/credit-cards/shopper-cash-rewards-visa-signature-credit-card.html",
       "verifiedAt": "2026-09-06",
-      "notes": "Closed to new applicants 2026-06-22; existing holders keep the card (PLAN §16.14.2: closedToNew, still in the picker). 6% at two chosen retailers ($1,500/qtr cap), 3% one everyday category, 1.5% else — retailer-specific, modeled at 1.5% flat. Source: NerdWallet (secondary); the usbank.com URL now serves the Cash+ page. PLAN §17.7.6: not reached by the 2026-10 benefits research; benefits deliberately left empty.",
+      "notes": "Closed to new applicants on 2026-06-22; existing holders keep the card. 6% at two retailers you choose, up to $1,500 a quarter, 3% in one everyday category and 1.5% on everything else. Because the retailers are yours to pick, Tipoff only counts on the 1.5%.",
+      "editorialNotes": "PLAN §16.14.2: closedToNew, still in the picker. Modelled at 1.5% flat. Source: NerdWallet (secondary); the usbank.com URL now serves the Cash+ page. PLAN §17.7.6: not reached by the 2026-10 benefits research; benefits deliberately left empty.",
       "status": "closedToNew"
     },
     {
@@ -5038,7 +5402,7 @@
         {
           "category": "groceries",
           "rate": 2.0,
-          "note": "2% at Kroger family stores only; other grocers 1%",
+          "note": "Kroger family stores only; other grocers 1%",
           "chainIDs": [
             "kroger"
           ]
@@ -5055,7 +5419,8 @@
       "popularityRank": 87,
       "sourceURL": "https://www.usbank.com/credit-cards/kroger-rewards-world-elite-mastercard.html",
       "verifiedAt": "2026-09-06",
-      "notes": "The 2% is merchant-restricted to the Kroger family (chainIDs, PLAN §16.10) — other grocers earn 1%. 5% on mobile wallet purchases up to $3k/yr not expressible as a category. Same card exists co-branded for Ralphs, Fred Meyer, etc. Rates confirmed via secondary sources only (Yahoo Finance, Bankrate) — usbank.com URL 404 and krogermastercard.com refused connection."
+      "notes": "The 2% is for Kroger family stores; other grocers earn 1%. There is also 5% on mobile wallet purchases up to $3,000 a year, which Tipoff cannot tie to a place. The same card exists co-branded for Ralphs, Fred Meyer and the rest of the family.",
+      "editorialNotes": "The 2% is merchant-restricted to the Kroger family (chainIDs, PLAN §16.10). The mobile-wallet 5% is not expressible as a category. Rates confirmed via secondary sources only (Yahoo Finance, Bankrate), because the usbank.com URL 404s and krogermastercard.com refused connection."
     },
     {
       "id": "barclays_jetblue_plus",
@@ -5183,7 +5548,8 @@
       "popularityRank": 53,
       "sourceURL": "https://www.cnbc.com/select/citi-becomes-exclusive-issuer-aadvantage-credit-cards/",
       "verifiedAt": "2026-09-06",
-      "notes": "Retired: applications closed 2025; on April 24, 2026 all Aviator Red accounts were converted to the $99 Citi / AAdvantage Platinum Select World Elite Mastercard (citi_aadvantage_platinum_select). Barclays product page returns 404; sourceURL is a secondary source (CNBC; also One Mile at a Time, Frequent Miler). Citi became American's exclusive card issuer in 2026. Kept so saved states resolve. PLAN §17.7.6: not reached by the 2026-10 benefits research; benefits deliberately left empty.",
+      "notes": "Retired. Applications closed in 2025, and on April 24, 2026 every Aviator Red account became a $99 Citi / AAdvantage Platinum Select World Elite Mastercard. Citi became American's exclusive card issuer in 2026.",
+      "editorialNotes": "Kept so saved states resolve. The Barclays product page returns 404; sourceURL is a secondary source (CNBC; also One Mile at a Time, Frequent Miler). PLAN §17.7.6: not reached by the 2026-10 benefits research; benefits deliberately left empty.",
       "status": "converted",
       "convertedTo": "citi_aadvantage_platinum_select"
     },
@@ -5221,7 +5587,11 @@
         {
           "category": "groceries",
           "rate": 2.0,
-          "note": "Excludes Target and Walmart"
+          "note": "Excludes Target and Walmart",
+          "excludedChainIDs": [
+            "walmart",
+            "target"
+          ]
         }
       ],
       "rotating": null,
@@ -5235,7 +5605,8 @@
       "popularityRank": 86,
       "sourceURL": "https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "5x Wyndham stays; 2x dining, groceries and gas; 1x elsewhere. PLAN §17.7.6: not reached by the 2026-10 benefits research; benefits deliberately left empty rather than guessed."
+      "notes": "5x on Wyndham stays, 2x on dining, groceries and gas, 1x elsewhere.",
+      "editorialNotes": "PLAN §17.7.6: not reached by the 2026-10 benefits research; benefits deliberately left empty rather than guessed. PLAN §23.2 cross-category audit (M19): this card's grocery note says it excludes Target and Walmart, and the row carries no excludedChainIDs because PLAN §16.11.2 seeded exclusions on Amex, Chase, Capital One and BofA rows only. Note and data therefore disagree at a Walmart. PLAN §24 (M20): applied. The Barclays page states the exclusion in the earn line itself, \"grocery store purchases (excluding Target and Walmart)\", so the note was right and the row was wrong. The row now carries excluded_chain_ids=SUPERSTORES. Noted while checking: the same page also shows a 3x dining and grocery figure in its Rewards and Special Offer blocks against the 2x in Reward details, which this run did not act on; the rate stays 2x pending a re-verification pass."
     },
     {
       "id": "barclays_wyndham_earner_plus",
@@ -5263,7 +5634,11 @@
         {
           "category": "groceries",
           "rate": 4.0,
-          "note": "Excludes Target and Walmart"
+          "note": "Excludes Target and Walmart",
+          "excludedChainIDs": [
+            "walmart",
+            "target"
+          ]
         },
         {
           "category": "dining",
@@ -5292,7 +5667,8 @@
       "popularityRank": 91,
       "sourceURL": "https://cards.barclaycardus.com/banking/cards/wyndham-rewards-earner-plus-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "6x Wyndham hotel stays; 4x dining, groceries and other travel; 1x elsewhere. Gas earns 1x flat (no gas bonus on this card)."
+      "notes": "6x on Wyndham hotel stays, 4x on dining, groceries and other travel, 1x elsewhere. There is no gas bonus on this card.",
+      "editorialNotes": "PLAN §23.2 cross-category audit (M19): as on barclays_wyndham_earner, the grocery note says it excludes Target and Walmart while the row carried no excludedChainIDs, because PLAN §16.11.2 seeded exclusions on Amex, Chase, Capital One and BofA rows only. PLAN §24 (M20): applied. The Barclays page's own earn line reads \"grocery store purchases (excluding Target and Walmart)\", so the note was right and the row was wrong."
     },
     {
       "id": "barclays_frontier",
@@ -5307,7 +5683,7 @@
         {
           "category": "travel",
           "rate": 5.0,
-          "note": "Frontier purchases only ('up to 17x' marketed; card component modeled at 5x); other travel 1x",
+          "note": "Frontier purchases; other travel 1x",
           "chainIDs": [
             "frontier_airlines"
           ]
@@ -5328,7 +5704,7 @@
       "popularityRank": 100,
       "sourceURL": "https://cards.barclaycardus.com/banking/cards/frontier-airlines-world-mastercard/",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": "Frontier markets \"up to 17x\" on its own flights. The 5x here is the card's own share; the rest comes from the Frontier Miles programme."
     },
     {
       "id": "apple_card",
@@ -5351,7 +5727,8 @@
       "popularityRank": 25,
       "sourceURL": "https://www.apple.com/apple-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "2% Daily Cash requires paying with Apple Pay; the titanium card earns 1%. 3% at Apple and select merchants (Uber, Walgreens, Nike, T-Mobile, Exxon/Mobil, Panera, Ace Hardware). flatRate 2 assumes tap-to-pay, which is Tipoff's whole premise. Issuing bank: Goldman Sachs, with the portfolio moving to JPMorgan Chase — apple.com still says 'issued by Goldman Sachs Bank USA' (2026-09-06); issuer string kept until the transfer completes."
+      "notes": "The 2% Daily Cash is for paying with Apple Pay; the titanium card itself earns 1%. 3% at Apple and at select merchants including Uber, Walgreens, Nike, T-Mobile, Exxon, Mobil, Panera and Ace Hardware. Tipoff assumes you tap with Apple Pay, which is what it is for.",
+      "editorialNotes": "flatRate 2 assumes tap-to-pay. Issuing bank: Goldman Sachs, with the portfolio moving to JPMorgan Chase. apple.com still said 'issued by Goldman Sachs Bank USA' on 2026-09-06, so the issuer string is kept until the transfer completes."
     },
     {
       "id": "synchrony_paypal_cashback",
@@ -5397,7 +5774,7 @@
       "popularityRank": 77,
       "sourceURL": "https://venmo.com/about/creditcard",
       "verifiedAt": "2026-09-06",
-      "notes": "3% in your top monthly spend category and 2% in your second — automatic across eight categories; modeled at 1% flat because the category is unknown in advance."
+      "notes": "3% in your top spending category each month and 2% in the second, worked out automatically across eight categories. Tipoff shows 1% because which category wins is only known after the fact."
     },
     {
       "id": "synchrony_verizon",
@@ -5434,7 +5811,7 @@
       "popularityRank": 83,
       "sourceURL": "https://www.verizon.com/solutions-and-services/verizon-visa-card/",
       "verifiedAt": "2026-09-06",
-      "notes": "Earns Verizon Dollars usable toward Verizon bills — modeled as cash. 4% grocery and gas, 3% dining, 2% Verizon purchases, 1% elsewhere."
+      "notes": "Earns Verizon Dollars usable toward Verizon bills, modeled as cash. 4% grocery and gas, 3% dining, 2% Verizon purchases, 1% elsewhere."
     },
     {
       "id": "synchrony_sams_club",
@@ -5461,7 +5838,7 @@
         {
           "category": "wholesaleClubs",
           "rate": 3.0,
-          "note": "Plus members: 3% from the card + 2% Plus membership = 5% Sam's Cash; Club members earn 1% at Sam's",
+          "note": "Sam's Club and samsclub.com; Plus members: 3% from the card + 2% Plus membership = 5% Sam's Cash; Club members earn 1% at Sam's",
           "chainIDs": [
             "sams_club"
           ]
@@ -5478,7 +5855,8 @@
       "popularityRank": 34,
       "sourceURL": "https://www.samsclub.com/content/credit",
       "verifiedAt": "2026-09-06",
-      "notes": "Requires Sam's Club membership. Earns Sam's Cash. Card earns 3% at Sam's Club for Plus members (plus 2% Plus rebate = 5%); Club members earn 1%. $5,000/yr Sam's Cash cap. The 3% is merchant-restricted to `sams_club` (PLAN §16.13.3). Verified on help.samsclub.com (the /content/credit product page renders its header only)."
+      "notes": "Requires a Sam's Club membership and pays in Sam's Cash, up to $5,000 a year. At Sam's Club the card pays 3% for Plus members, which with the 2% Plus rebate makes 5%; Club members earn 1% there.",
+      "editorialNotes": "The 3% at Sam's Club is merchant-restricted to `sams_club` (PLAN §16.13.3). Verified on help.samsclub.com because the /content/credit product page renders its header only, which docs/REVERIFY-2026-11.md found again on 2026-11-01: the 5% gas row with its $6,000 cap, the 3% dining and the 3% wholesale club rows are all still unverified."
     },
     {
       "id": "bilt_mastercard",
@@ -5510,12 +5888,13 @@
       "popularityRank": 113,
       "sourceURL": "https://www.bilt.com/card",
       "verifiedAt": "2026-09-06",
-      "notes": "Closed to new applicants: bilt.com/card now offers only Bilt Card 2.0 products — Bilt Blue ($0), Bilt Obsidian ($95), Bilt Palladium ($495). Wells Fargo Bilt Mastercard kept for existing holders; the 2.0 cards are issued by Cardless per press. Also 1x on rent with no fee. Requires 5 transactions per statement to earn. Rent Day (1st of month) doubles points. PLAN §17.7.6: not reached by the 2026-10 benefits research; benefits deliberately left empty.",
+      "notes": "Closed to new applicants: bilt.com/card now offers only the Bilt 2.0 cards, Bilt Blue ($0), Bilt Obsidian ($95) and Bilt Palladium ($495). This Wells Fargo version stays for existing holders. Rent earns 1x with no fee, you need five transactions a statement period to earn anything, and Rent Day on the 1st of the month doubles points.",
+      "editorialNotes": "PLAN §17.7.6: not reached by the 2026-10 benefits research; benefits deliberately left empty. PLAN §16.12.3 founder ruling keeps the legacy earn table, which could not be re-read. docs/REVERIFY-2026-11.md (M19): the press attribution this note carried (\"issued by Cardless\") is wrong and is corrected on the three 2.0 cards, which bilt.com's own disclosure assigns to Column N.A.",
       "status": "closedToNew"
     },
     {
       "id": "bilt_blue",
-      "issuer": "Bilt (Cardless)",
+      "issuer": "Bilt (Column N.A.)",
       "name": "Bilt Blue Card",
       "shortName": "Bilt Blue",
       "network": "mastercard",
@@ -5526,7 +5905,7 @@
         {
           "category": "dining",
           "rate": 1.0,
-          "note": "3x at Bilt Neighborhood partner restaurants (not expressible as a chain); 1x at other restaurants"
+          "note": "Up to 4x at Bilt dining partners; 1x at other restaurants"
         },
         {
           "category": "transit",
@@ -5535,6 +5914,12 @@
           "chainIDs": [
             "lyft"
           ]
+        },
+        {
+          "category": "travel",
+          "rate": 3.0,
+          "note": "Bilt Travel portal: hotels 3x, flights 2x",
+          "channel": "portal"
         }
       ],
       "rotating": null,
@@ -5547,12 +5932,13 @@
       },
       "popularityRank": 28,
       "sourceURL": "https://www.bilt.com/card",
-      "verifiedAt": null,
-      "notes": "Bilt Card 2.0 (issued by Cardless). $0 fee. 1x everywhere; 3x on Lyft; 3x at Bilt Neighborhood partner restaurants. Rent/mortgage 1x (fee applies; not modelled). 4% Bilt Cash on all spend (not modelled as a rate). Earn table confirmed 2026-09-06 via Doctor of Credit (secondary: true; bilt.com support page returned 403 — verifiedAt null until an issuer page is captured, PLAN §16.14b)."
+      "verifiedAt": "2026-11-01",
+      "notes": "No annual fee. 1x on everything, 3x on Lyft, up to 4x at Bilt dining partners, and through the Bilt Travel portal 3x on hotels and 2x on flights. Rent and mortgage earn up to 1.25x and carry a fee. All spend also earns 4% Bilt Cash, which Tipoff does not count as a rate.",
+      "editorialNotes": "Bilt Card 2.0. Bilt dining partners are individual restaurants the catalog cannot name, so the partner rate stays note text and the modelled dining rate is the 1x base. Earn table first confirmed 2026-09-06 via Doctor of Credit (secondary), then re-read on 2026-11-01 from bilt.com/card itself, which closes PLAN §16.14b: the 403 that forced the secondary source is gone, the issuing bank is Column N.A. rather than Cardless, the Bilt dining partner rate is one multiple higher than September recorded, and the Bilt Travel portal rows were missing entirely. bilt.com also states rent and mortgage earn up to 1.25x on a sliding scale rather than the flat 1x the September notes claimed; rent is not a modelled category, so that correction lives in the user-facing note."
     },
     {
       "id": "bilt_obsidian",
-      "issuer": "Bilt (Cardless)",
+      "issuer": "Bilt (Column N.A.)",
       "name": "Bilt Obsidian Card",
       "shortName": "Bilt Obsidian",
       "network": "mastercard",
@@ -5563,7 +5949,7 @@
         {
           "category": "dining",
           "rate": 3.0,
-          "note": "Or groceries 3x — choose in the Bilt app (dining modelled as the chosen one); 5x at Bilt Neighborhood partner restaurants"
+          "note": "3x if dining is the category you pick in the Bilt app, which is what Tipoff assumes. Up to 6x at Bilt dining partners"
         },
         {
           "category": "groceries",
@@ -5571,7 +5957,7 @@
           "cap": 25000,
           "capPeriod": "year",
           "capUnit": "spend",
-          "note": "Or dining — choose in the Bilt app; 3x on groceries if chosen, capped $25k/yr"
+          "note": "3x instead if groceries is the category you pick in the Bilt app, on the first $25,000 a year"
         },
         {
           "category": "travel",
@@ -5584,6 +5970,12 @@
           "chainIDs": [
             "lyft"
           ]
+        },
+        {
+          "category": "travel",
+          "rate": 4.0,
+          "note": "Bilt Travel portal: hotels 4x, flights 3x",
+          "channel": "portal"
         }
       ],
       "rotating": null,
@@ -5608,12 +6000,13 @@
       },
       "popularityRank": 114,
       "sourceURL": "https://www.bilt.com/card",
-      "verifiedAt": null,
-      "notes": "Bilt Card 2.0 (issued by Cardless). $95 fee. Choose-one rule: 3x dining OR 3x groceries (groceries capped $25k/yr) — modelled as dining 3x / groceries 1x; Phase 2 makes the choice user-selectable. 2x travel; 3x Lyft; 5x at Bilt Neighborhood partner restaurants. Rent/mortgage 1x (fee applies; not modelled). 4% Bilt Cash on all spend (not modelled as a rate). Earn table confirmed 2026-09-06 via Doctor of Credit (secondary: true; bilt.com support page returned 403 — verifiedAt null until an issuer page is captured, PLAN §16.14b)."
+      "verifiedAt": "2026-11-01",
+      "notes": "$95 a year. You choose one of dining or groceries to earn 3x; Tipoff assumes dining, so if you chose groceries these two rates are the wrong way round for you. Groceries, if chosen, are capped at $25,000 a year. Also 2x on other travel, 3x on Lyft, up to 6x at Bilt dining partners, and through the Bilt Travel portal 4x on hotels and 3x on flights. Rent and mortgage earn up to 1.25x and carry a fee. All spend also earns 4% Bilt Cash, which Tipoff does not count as a rate.",
+      "editorialNotes": "Bilt Card 2.0. The choose-one rule is modelled as dining 3x / groceries 1x; Phase 2 makes the choice user-selectable, and until then the user-facing note says which way round the assumption runs. Earn table first confirmed 2026-09-06 via Doctor of Credit (secondary), then re-read on 2026-11-01 from bilt.com/card itself, which closes PLAN §16.14b: the 403 that forced the secondary source is gone, the issuing bank is Column N.A. rather than Cardless, the Bilt dining partner rate is one multiple higher than September recorded, and the Bilt Travel portal rows were missing entirely. bilt.com also states rent and mortgage earn up to 1.25x on a sliding scale rather than the flat 1x the September notes claimed; rent is not a modelled category, so that correction lives in the user-facing note."
     },
     {
       "id": "bilt_palladium",
-      "issuer": "Bilt (Cardless)",
+      "issuer": "Bilt (Column N.A.)",
       "name": "Bilt Palladium Card",
       "shortName": "Bilt Palladium",
       "network": "mastercard",
@@ -5628,6 +6021,12 @@
           "chainIDs": [
             "lyft"
           ]
+        },
+        {
+          "category": "travel",
+          "rate": 4.0,
+          "note": "Bilt Travel portal: hotels 4x, flights 3x",
+          "channel": "portal"
         }
       ],
       "rotating": null,
@@ -5652,8 +6051,9 @@
       },
       "popularityRank": 115,
       "sourceURL": "https://www.bilt.com/card",
-      "verifiedAt": null,
-      "notes": "Bilt Card 2.0 (issued by Cardless). $495 fee. 2x on everything (flatRate); 4x Lyft; 4x at Bilt Neighborhood partner restaurants. $400 Bilt Travel hotel credit → benefits schema (Phase 2). Rent/mortgage 1x (fee applies; not modelled). 4% Bilt Cash on all spend (not modelled as a rate). Earn table confirmed 2026-09-06 via Doctor of Credit (secondary: true; bilt.com support page returned 403 — verifiedAt null until an issuer page is captured, PLAN §16.14b)."
+      "verifiedAt": "2026-11-01",
+      "notes": "$495 a year. 2x on everything, 4x on Lyft, up to 5x at Bilt dining partners, and through the Bilt Travel portal 4x on hotels and 3x on flights. Rent and mortgage earn up to 1.25x and carry a fee. All spend also earns 4% Bilt Cash, which Tipoff does not count as a rate.",
+      "editorialNotes": "Bilt Card 2.0. The $400 Bilt Travel hotel credit is carried as two $200 semiannual portal credits. The separate $200 annual Bilt Cash stays unmodelled as a currency deposit rather than a credit, a 2026-10 decision this pass leaves alone. Earn table first confirmed 2026-09-06 via Doctor of Credit (secondary), then re-read on 2026-11-01 from bilt.com/card itself, which closes PLAN §16.14b: the 403 that forced the secondary source is gone, the issuing bank is Column N.A. rather than Cardless, the Bilt dining partner rate is one multiple higher than September recorded, and the Bilt Travel portal rows were missing entirely. bilt.com also states rent and mortgage earn up to 1.25x on a sliding scale rather than the flat 1x the September notes claimed; rent is not a modelled category, so that correction lives in the user-facing note."
     },
     {
       "id": "navy_federal_more_rewards",
@@ -5718,7 +6118,7 @@
       "popularityRank": 32,
       "sourceURL": "https://www.navyfederal.org/loans-cards/credit-cards/cash-rewards.html",
       "verifiedAt": "2026-09-06",
-      "notes": "1.75% with direct deposit — 1.5% base modeled."
+      "notes": "1.75% with direct deposit, with the 1.5% base modeled."
     },
     {
       "id": "navy_federal_flagship",
@@ -5793,7 +6193,7 @@
         {
           "category": "dining",
           "rate": 3.0,
-          "note": "Restaurants — added to the 3x tier"
+          "note": "Restaurants, added to the 3x tier"
         },
         {
           "category": "streaming",
@@ -5835,7 +6235,7 @@
       "popularityRank": 73,
       "sourceURL": "https://www.penfed.org/credit-cards/power-cash-rewards-visa",
       "verifiedAt": "2026-09-06",
-      "notes": "2% for Honors Advantage members (military or PenFed checking) — 1.5% base modeled."
+      "notes": "2% for Honors Advantage members (military or PenFed checking), with the 1.5% base modeled."
     },
     {
       "id": "usaa_preferred_cash_rewards",
@@ -5897,7 +6297,8 @@
       "popularityRank": 101,
       "sourceURL": "https://www.usaa.com/inet/wc/bank-credit-card-cashback-rewards-plus-amex",
       "verifiedAt": "2026-09-06",
-      "notes": "Appears open to USAA members again: secondary sources report a $200 signup bonus as of 2026-03-27. 5% first $3,000/yr combined gas + military base; 2% (some sources 3%) first $3,000/yr groceries; 1% else. PLAN §17.8.1 audit: the two $3,000 caps are separate pots (5% gas/base, 2% groceries), not one shared pot, so neither row carries a capGroupID."
+      "notes": "Open to USAA members again. 5% on the first $3,000 a year of gas and military base purchases, 2% on the first $3,000 of groceries, 1% on everything else.",
+      "editorialNotes": "The reopening and a $200 signup bonus as of 2026-03-27 are secondary-sourced; some sources say 3% on groceries rather than 2%. PLAN §17.8.1 audit: the two $3,000 caps are separate pots (5% gas/base, 2% groceries), not one shared pot, so neither row carries a capGroupID."
     },
     {
       "id": "sofi_credit_card",
@@ -5983,7 +6384,8 @@
       "popularityRank": 104,
       "sourceURL": "https://www.target.com/circlecard",
       "verifiedAt": "2026-09-06",
-      "notes": "The 5% at Target is a checkout discount modeled as a merchant-restricted everythingElse row (PLAN §16.10): it scores only when the resolved chain is Target and, per PLAN §16.13.1, pushes as \"Use Target Circle MC · 5% here\". Target-branded Circle Card (non-Mastercard) works only at Target."
+      "notes": "The 5% at Target and Target.com is a discount taken at the till rather than points you collect. The Target-branded Circle Card that is not a Mastercard works only at Target.",
+      "editorialNotes": "The 5% is a merchant-restricted everythingElse row (PLAN §16.10): it scores only when the resolved chain is Target and, per PLAN §16.13.1, pushes as \"Use Target Circle MC · 5% here\"."
     },
     {
       "id": "elan_fidelity_rewards",
@@ -6078,7 +6480,8 @@
       "popularityRank": 107,
       "sourceURL": "https://www.td.com/us/en/personal-banking/credit-cards/double-up",
       "verifiedAt": "2026-09-06",
-      "notes": "td.com states 'unlimited 2% cash back' on all eligible purchases with no redeem-into-TD-account condition currently visible; modeled at the flat 2% rate. The legacy 1%-otherwise clause could not be re-verified in the rewards T&C and is not applied."
+      "notes": "Unlimited 2% cash back on eligible purchases, with no condition about redeeming into a TD account.",
+      "editorialNotes": "Modelled at the flat 2% rate from td.com's own wording. The legacy 1%-otherwise clause could not be re-verified in the rewards terms and is not applied."
     },
     {
       "id": "td_cash",
@@ -6093,12 +6496,12 @@
         {
           "category": "dining",
           "rate": 3.0,
-          "note": "Modeled default 3% choice category"
+          "note": "3% if dining is your chosen category, which is what Tipoff assumes"
         },
         {
           "category": "groceries",
           "rate": 2.0,
-          "note": "Modeled default 2% choice category"
+          "note": "2% if groceries is your chosen category, which is what Tipoff assumes"
         }
       ],
       "rotating": null,
@@ -6112,7 +6515,7 @@
       "popularityRank": 108,
       "sourceURL": "https://www.td.com/us/en/personal-banking/credit-cards/cash-card",
       "verifiedAt": "2026-09-06",
-      "notes": "Choice categories (dining, entertainment, gas, groceries, travel) are user-selected; defaults modeled."
+      "notes": "You choose which categories earn 3% and 2% from dining, entertainment, gas, groceries and travel. Tipoff assumes dining and groceries, so change them in your account and these two rates will be wrong for you."
     },
     {
       "id": "truist_enjoy_cash",
@@ -6154,7 +6557,7 @@
       "popularityRank": 109,
       "sourceURL": "https://www.truist.com/credit-cards/enjoy-cash",
       "verifiedAt": "2026-09-06",
-      "notes": "Also 2% on utilities. Applicants may alternatively choose flat 1.5% (not modeled)."
+      "notes": "Also earns 2% on utilities. New applicants can take a flat 1.5% on everything instead of these categories; Tipoff models the category version."
     },
     {
       "id": "fifth_third_cash_back",
@@ -8392,6 +8795,59 @@
       "category": "travel",
       "confidence": "seeded",
       "notes": "MCC 3005 (BA; Aer Lingus and Iberia have their own codes but earn the same 3x on the BA Visa). Bare 'Iberia' dropped (restaurants)."
+    },
+    {
+      "id": "hawaiian_airlines",
+      "brandNames": [
+        "Hawaiian Airlines"
+      ],
+      "mcc": "4511",
+      "category": "travel",
+      "confidence": "seeded",
+      "notes": "Airline-specific code uncertain; generic 4511 used. Alaska Airlines' co-brand earns its 3x here too (the cards' own note says so), so it is in that card's chainIDs as well."
+    },
+    {
+      "id": "allegiant_air",
+      "brandNames": [
+        "Allegiant Air",
+        "Allegiant"
+      ],
+      "mcc": "4511",
+      "category": "travel",
+      "confidence": "seeded",
+      "notes": "Airline-specific code uncertain; generic 4511 used."
+    },
+    {
+      "id": "sun_country_airlines",
+      "brandNames": [
+        "Sun Country Airlines",
+        "Sun Country"
+      ],
+      "mcc": "4511",
+      "category": "travel",
+      "confidence": "seeded",
+      "notes": "Airline-specific code uncertain; generic 4511 used."
+    },
+    {
+      "id": "breeze_airways",
+      "brandNames": [
+        "Breeze Airways"
+      ],
+      "mcc": "4511",
+      "category": "travel",
+      "confidence": "seeded",
+      "notes": "Airline-specific code uncertain; generic 4511 used. Single-word 'Breeze' is not an alias (Breeze Thru Car Wash, Sea Breeze Cafe)."
+    },
+    {
+      "id": "avelo_airlines",
+      "brandNames": [
+        "Avelo Airlines",
+        "Avelo"
+      ],
+      "mcc": "4511",
+      "category": "travel",
+      "confidence": "seeded",
+      "notes": "Airline-specific code uncertain; generic 4511 used."
     },
     {
       "id": "hertz",

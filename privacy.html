@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tipoff and your privacy</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+         max-width: 40rem; margin: 0 auto; padding: 2.5rem 1.25rem 4rem; }
+  h1 { font-size: 1.9rem; line-height: 1.2; margin-bottom: .25rem; }
+  h2 { font-size: 1.2rem; margin-top: 2.25rem; }
+  li { margin: .4rem 0; }
+  code { font-size: .9em; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid rgba(128,128,128,.3);
+            font-size: .85rem; opacity: .75; }
+</style></head><body>
+<h1>Tipoff and your privacy</h1>
+<h2>We never touch your money</h2>
+<ul>
+<li>We never ask for card numbers, logins, bank access, or statements.</li>
+<li>You tell us which cards you have by ticking them in a list. That is all we know about your wallet.</li>
+<li>We cannot see what you buy, where you paid, or how much you spent. Ever.</li>
+</ul>
+<h2>Location stays on your phone</h2>
+<ul>
+<li>Tipoff uses your location on your device to notice when you are near a store, so it can suggest the best card before you pay.</li>
+<li>We do not store where you have been on any server. We run no server that receives anything from you.</li>
+<li>Your alert history is kept only on your phone, and you can clear it any time in Settings.</li>
+<li>You can skip location entirely and use Tipoff in manual mode: pick a category, get an answer.</li>
+</ul>
+<h2>The only network calls</h2>
+<ol>
+<li><strong>Apple Maps</strong> place lookups, to learn what stores are around you. These go to Apple under Apple&#x27;s privacy terms, not to us.</li>
+<li><strong>Downloading our rewards-data file</strong> (card rates and store categories) so rates can be corrected without an app update. It is a plain file on a content host. The request carries nothing about you: only a version tag for the file you already have (an &quot;ETag&quot;), so an unchanged file is not downloaded twice. The app checks at most once every six hours, and only while it is open; the widget never checks.</li>
+</ol>
+<p>That is the complete list. No analytics, no advertising SDKs, no data sales, no accounts.</p>
+<h2>If you report a problem</h2>
+<p>Settings has a <strong>Report a problem</strong> row. It is the only thing in Tipoff that can send anything anywhere, and it only does so because you decide to.</p>
+<ul>
+<li>It opens a draft in <strong>your own mail app</strong>. Tipoff does not send it. You do, from your own mail, or you close the draft and nothing happens.</li>
+<li>Before that, the whole thing is on screen and you can edit or delete any of it: what you wrote, and the technical block underneath.</li>
+<li>That block is app and iOS versions, your device model, which rewards-data file the app is using, whether you have granted location and notifications, and <strong>counts</strong>: how many cards, how many places are being watched, how many alerts in the last week, how many you answered.</li>
+<li>It carries <strong>no card names, no store names, no map positions, and nothing about where you have been</strong>. Not shortened, not coded, not hashed. Those things are simply not in it.</li>
+<li>We do not read your alert history, and the app never attaches it.</li>
+</ul>
+<h2>What we keep on your phone</h2>
+<ul>
+<li>The cards you selected and any point-value settings you changed.</li>
+<li>Your quiet hours and alert limits.</li>
+<li>Your recent alerts (last 200), so the app does not repeat itself.</li>
+<li>Your answers to &quot;did you buy anything here?&quot; (&quot;used it&quot;, &quot;just passing&quot;, or nothing at all) against those alerts, and the places where three &quot;just passing&quot; answers in a row have made Tipoff stop alerting. Answering is optional, saying nothing is a normal answer, and you can change any answer later. This is you telling us; we still cannot see a purchase, and none of it is uploaded.</li>
+<li>Any amounts you choose to type in yourself: a rough estimate against a card&#x27;s bonus cap, or a statement credit you tell us you used. Tipoff never fills these in for you and never infers them from an answer above.</li>
+<li>The stores currently being watched around you (up to 19 names and map positions), the spot the list was last built around, and when you last left each store. This cache is what lets an alert fire without a network call; it is rebuilt every time you move on and is deleted with the app.</li>
+<li>A copy of the latest rewards-data file and its version tag.</li>
+<li>A few counters we show you on the Debug screen (alerts fired, &quot;wrong category&quot; taps). They never leave the device.</li>
+</ul>
+<h2>Coming later, always opt-in</h2>
+<p>A future version may let you tell us when a store&#x27;s category was wrong, to help other users. That would require signing in with Apple, would send only the store&#x27;s approximate location cell and the category you picked, and would never include anything about a purchase. It is off, and does not exist, in this version.</p>
+<h2>Questions</h2>
+<p>privacy@tipoff.app</p>
+<footer>Last updated 1 November 2026. Questions: zcirillo@gmail.com</footer>
+</body></html>

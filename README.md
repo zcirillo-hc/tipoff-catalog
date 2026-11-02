@@ -4,11 +4,12 @@ The rewards data for the Tipoff iOS app: which credit cards earn what, where, an
 credits attached to them. The app downloads this file so card terms can be corrected without
 shipping an app update.
 
-**This repository contains data only — no application code.**
+**This repository contains data and the privacy policy only. No application code.**
 
 ```
 v1/catalog.json          the catalog the app fetches
 v1/catalog.schema.json   JSON Schema describing its shape
+privacy.html             the app's privacy policy, published for App Store Connect
 ```
 
 ### What's in it

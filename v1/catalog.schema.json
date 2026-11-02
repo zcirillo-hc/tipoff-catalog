@@ -582,7 +582,15 @@
           "type": [
             "string",
             "null"
-          ]
+          ],
+          "description": "PLAN \u00a723.1 \u2014 USER-FACING. Card Detail renders it verbatim: plain language about how the card earns, for someone deciding which card to pull out. A PLAN reference, a run name (M12a, Run 20), a section sign or the word \"ruling\" is a validator error; that text belongs in editorialNotes."
+        },
+        "editorialNotes": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "PLAN \u00a723.1 \u2014 editorial provenance: rulings, sources, caveats and do-not-re-add warnings. Never rendered on any screen. A note that mixes both is split sentence by sentence rather than filed whole in one field."
         },
         "standaloneCentsPerPoint": {
           "$ref": "#/$defs/centsPerPoint",
