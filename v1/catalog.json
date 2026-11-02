@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "catalogVersion": "2026.11.02-2",
+  "catalogVersion": "2026.11.02-3",
   "updatedAt": "2026-11-02",
   "programs": [
     {
@@ -1816,7 +1816,8 @@
             "note": "Gas stations and EV charging, public transit, select live entertainment, United Way."
           }
         ],
-        "cap": 1500
+        "cap": 1500,
+        "activationApp": "Chase"
       },
       "benefits": [],
       "style": {
@@ -4420,7 +4421,7 @@
       "sourceURL": "https://www.discover.com/credit-cards/cash-back/it-card.html",
       "verifiedAt": "2026-09-06",
       "notes": "5% rotating quarterly categories on up to $1,500 a quarter, once you activate them. Discover also matches all the cash back you earn in your first year, which Tipoff does not count.",
-      "editorialNotes": "Rotating bonuses score at 1% in Phase 1; the first-year Cashback Match is not modelled. 2026 quarterly calendar taken from aggregator round-ups of Discover's announcement (AwardWallet / NerdWallet / CNBC), so secondary: true. verifiedAt stays null until discover.com's own calendar page is captured."
+      "editorialNotes": "Rotating bonuses score at 1% in Phase 1; the first-year Cashback Match is not modelled. 2026 quarterly calendar taken from aggregator round-ups of Discover's announcement (AwardWallet / NerdWallet / CNBC), so secondary: true. verifiedAt stays null until discover.com's own calendar page is captured. Capital One acquired Discover. Accounts began migrating to Capital One's platform on 2026-07-27, in waves, with every account expected to be on Capital One by early 2027; cardholders are notified individually, so at any moment some have moved and some have not. PLAN §28.2: issuer stays \"Discover\" (still sold and branded as Discover it, and the issuer string is how a user finds the card in a list), and discover_cash must NEVER be pooled with capone_miles - the issuers merged, the currencies did not. The rotating 5% programme, the $1,500 quarterly cap, the activation requirement and Cashback Match are all confirmed unchanged by the migration. PLAN §28.1: no activationApp while the destination is split across two apps. PLAN §28.3: Q4 2026 (entertainment, restaurants, utilities) matches the seeded calendar, so no rate correction was needed; Q1 2027 is unseeded and the card drops to flatRate with the honest hedge from 2027-01-01 until it is. Whoever seeds it should capture the primary page, which may by then be a Capital One page."
     },
     {
       "id": "discover_it_miles",
@@ -4443,7 +4444,8 @@
       "popularityRank": 46,
       "sourceURL": "https://www.discover.com/credit-cards/travel/it-miles.html",
       "verifiedAt": "2026-09-06",
-      "notes": "1.5 miles per dollar, each redeemable for 1 cent, so 1.5% in effect."
+      "notes": "1.5 miles per dollar, each redeemable for 1 cent, so 1.5% in effect.",
+      "editorialNotes": "Capital One acquired Discover. Accounts began migrating to Capital One's platform on 2026-07-27, in waves, with every account expected to be on Capital One by early 2027; cardholders are notified individually, so at any moment some have moved and some have not. PLAN §28.2: issuer stays \"Discover\" (still sold and branded as Discover it, and the issuer string is how a user finds the card in a list), and discover_cash must NEVER be pooled with capone_miles - the issuers merged, the currencies did not. The rotating 5% programme, the $1,500 quarterly cap, the activation requirement and Cashback Match are all confirmed unchanged by the migration."
     },
     {
       "id": "discover_it_chrome",
@@ -4484,7 +4486,8 @@
       "popularityRank": 56,
       "sourceURL": "https://www.discover.com/credit-cards/cash-back/chrome/",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": null,
+      "editorialNotes": "Capital One acquired Discover. Accounts began migrating to Capital One's platform on 2026-07-27, in waves, with every account expected to be on Capital One by early 2027; cardholders are notified individually, so at any moment some have moved and some have not. PLAN §28.2: issuer stays \"Discover\" (still sold and branded as Discover it, and the issuer string is how a user finds the card in a list), and discover_cash must NEVER be pooled with capone_miles - the issuers merged, the currencies did not. The rotating 5% programme, the $1,500 quarterly cap, the activation requirement and Cashback Match are all confirmed unchanged by the migration."
     },
     {
       "id": "discover_it_student_cash_back",
@@ -4551,7 +4554,7 @@
       "sourceURL": "https://www.discover.com/credit-cards/student-credit-card/it-card.html",
       "verifiedAt": "2026-09-06",
       "notes": "The same rotating 5% programme as Discover it Cash Back.",
-      "editorialNotes": "2026 quarterly calendar taken from aggregator round-ups of Discover's announcement (AwardWallet / NerdWallet / CNBC), so secondary: true. verifiedAt stays null until discover.com's own calendar page is captured."
+      "editorialNotes": "2026 quarterly calendar taken from aggregator round-ups of Discover's announcement (AwardWallet / NerdWallet / CNBC), so secondary: true. verifiedAt stays null until discover.com's own calendar page is captured. Capital One acquired Discover. Accounts began migrating to Capital One's platform on 2026-07-27, in waves, with every account expected to be on Capital One by early 2027; cardholders are notified individually, so at any moment some have moved and some have not. PLAN §28.2: issuer stays \"Discover\" (still sold and branded as Discover it, and the issuer string is how a user finds the card in a list), and discover_cash must NEVER be pooled with capone_miles - the issuers merged, the currencies did not. The rotating 5% programme, the $1,500 quarterly cap, the activation requirement and Cashback Match are all confirmed unchanged by the migration. PLAN §28.1: no activationApp while the destination is split across two apps. PLAN §28.3: Q4 2026 (entertainment, restaurants, utilities) matches the seeded calendar, so no rate correction was needed; Q1 2027 is unseeded and the card drops to flatRate with the honest hedge from 2027-01-01 until it is. Whoever seeds it should capture the primary page, which may by then be a Capital One page."
     },
     {
       "id": "discover_it_secured",
@@ -4592,7 +4595,8 @@
       "popularityRank": 79,
       "sourceURL": "https://www.discover.com/credit-cards/secured-credit-card/",
       "verifiedAt": "2026-09-06",
-      "notes": null
+      "notes": null,
+      "editorialNotes": "Capital One acquired Discover. Accounts began migrating to Capital One's platform on 2026-07-27, in waves, with every account expected to be on Capital One by early 2027; cardholders are notified individually, so at any moment some have moved and some have not. PLAN §28.2: issuer stays \"Discover\" (still sold and branded as Discover it, and the issuer string is how a user finds the card in a list), and discover_cash must NEVER be pooled with capone_miles - the issuers merged, the currencies did not. The rotating 5% programme, the $1,500 quarterly cap, the activation requirement and Cashback Match are all confirmed unchanged by the migration."
     },
     {
       "id": "bofa_customized_cash",
