@@ -1,0 +1,49 @@
+# Every push to this repo reaches a phone. GitHub Pages serves v1/catalog.json to every installed copy of
+# Tipoff, which picks it up on next foreground and at most once every six hours, with no App Store review
+# anywhere in the path. This workflow is the only review that data gets.
+#
+# It runs tools/validate-catalog.py, which is the same file Tooling/publish-catalog.sh runs in the app repo
+# before pushing. Both copies are refreshed by that script, so the rules cannot drift. The case this catches
+# that the publish script cannot is a push that never went through it: a file edited on github.com, or a
+# push from another machine.
+#
+# It does NOT block the Pages deploy, which runs on its own from the branch. A failure here means the bad
+# catalog is already live and needs a corrected push, so treat a red run as an incident, not a nag.
+name: Validate catalog
+
+on:
+  push:
+    paths:
+      - "v1/**"
+      - "tools/**"
+      - ".github/workflows/validate-catalog.yml"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The previous commit too, so the version-bump and truncation checks have something to compare.
+          fetch-depth: 2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install --quiet jsonschema
+
+      - name: Recover the copy this one replaces
+        id: previous
+        run: |
+          if git show HEAD~1:v1/catalog.json > /tmp/previous-catalog.json 2>/dev/null; then
+            echo "args=--previous /tmp/previous-catalog.json" >> "$GITHUB_OUTPUT"
+          else
+            echo "No previous v1/catalog.json (first commit touching it); comparisons skipped."
+            echo "args=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate
+        run: python3 -I tools/validate-catalog.py v1/catalog.json ${{ steps.previous.outputs.args }}

@@ -341,6 +341,10 @@
             "$ref": "#/$defs/rotatingQuarter"
           },
           "description": "The announced quarters (PLAN §16.28 A). A quarter that covers the requested category is scored at `rate` (PLAN §16.31.1)."
+        },
+        "activationApp": {
+          "type": "string",
+          "description": "USER-FACING, and optional on purpose (PLAN §28.1). The app a cardholder activates this quarter's categories in, interpolated into the activation prompt. Omit it when the destination is not knowable for every holder of the card: Discover accounts are migrating to Capital One in waves through early 2027, so a Discover card naming either app would be wrong for some readers, and the copy falls back to \"Activate this quarter\"."
         }
       }
     },
@@ -436,6 +440,10 @@
         "note": {
           "type": "string",
           "description": "Editorial note: what the amount covers, what it excludes, where it was confirmed."
+        },
+        "editorialNote": {
+          "type": "string",
+          "description": "NOT user-facing. Where provenance for this credit belongs (PLAN §26.1): a PLAN reference, a run name or a dated correction. `note` above is rendered verbatim to the cardholder and must carry none of that, so this field is what keeps the two apart. No screen reads this one."
         }
       }
     },
@@ -583,14 +591,14 @@
             "string",
             "null"
           ],
-          "description": "PLAN \u00a723.1 \u2014 USER-FACING. Card Detail renders it verbatim: plain language about how the card earns, for someone deciding which card to pull out. A PLAN reference, a run name (M12a, Run 20), a section sign or the word \"ruling\" is a validator error; that text belongs in editorialNotes."
+          "description": "PLAN §23.1 — USER-FACING. Card Detail renders it verbatim: plain language about how the card earns, for someone deciding which card to pull out. A PLAN reference, a run name (M12a, Run 20), a section sign or the word \"ruling\" is a validator error; that text belongs in editorialNotes."
         },
         "editorialNotes": {
           "type": [
             "string",
             "null"
           ],
-          "description": "PLAN \u00a723.1 \u2014 editorial provenance: rulings, sources, caveats and do-not-re-add warnings. Never rendered on any screen. A note that mixes both is split sentence by sentence rather than filed whole in one field."
+          "description": "PLAN §23.1 — editorial provenance: rulings, sources, caveats and do-not-re-add warnings. Never rendered on any screen. A note that mixes both is split sentence by sentence rather than filed whole in one field."
         },
         "standaloneCentsPerPoint": {
           "$ref": "#/$defs/centsPerPoint",
